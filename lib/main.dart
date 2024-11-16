@@ -24,6 +24,8 @@ class HomePage extends StatelessWidget {
         padding:
             const EdgeInsets.all(16.0), // Add some padding to the whole body
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment
+              .start, // Align all children to the start (left side)
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment
@@ -95,10 +97,34 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            // Rest of the body content can go here
             const Expanded(
-              child: Center(
-                child: Text('Welcome to your barebone Flutter app!'),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 20.0), // Adds some padding to the top of the text area
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment
+                      .start, // Aligns text to the start (left)
+                  children: [
+                    SizedBox(height: 150),
+                    Row(children: [
+                      SizedBox(width: 30),
+                      SizedBox(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Find your safe stay',
+                              style: TextStyle(fontSize: 40),
+                            ),
+                            Text(
+                              'near your university',
+                              style: TextStyle(fontSize: 40),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ])
+                  ],
+                ),
               ),
             ),
           ],
