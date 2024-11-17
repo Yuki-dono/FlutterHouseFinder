@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:safe_stay/pages/main.dart';
+import 'package:safe_stay/main.dart';
 
 void main() {
   testWidgets('Safe Stay title is displayed', (WidgetTester tester) async {
