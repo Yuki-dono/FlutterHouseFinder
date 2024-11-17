@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'pages/login.dart'; // Import the Login page
+import 'api/db_details.dart';
 
 void main() {
+  supabaseInit(); //Global Init of our Supabase DB
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key}); // Added const for compatibility with tests
 
   @override
