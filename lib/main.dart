@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'login.dart'; // Import the Login page
 import 'register.dart'; // Import the Register page
+=======
+import 'pages/login.dart'; // Import the Login page
+import 'api/db_details.dart';
+>>>>>>> 545a5dca586f220698f4805c4ec091e13147636a
 
 void main() {
+  supabaseInit(); //Global Init of our Supabase DB
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+<<<<<<< HEAD
   const MyApp({super.key});
+=======
+
+  const MyApp({super.key}); // Added const for compatibility with tests
+>>>>>>> 545a5dca586f220698f4805c4ec091e13147636a
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +67,11 @@ class HomePage extends StatelessWidget {
                     },
                     style: TextButton.styleFrom(
                       shape: const RoundedRectangleBorder(
+<<<<<<< HEAD
                         borderRadius: BorderRadius.zero,
+=======
+                        borderRadius: BorderRadius.zero, // Square corners
+>>>>>>> 545a5dca586f220698f4805c4ec091e13147636a
                       ),
                       padding: const EdgeInsets.symmetric(
                         vertical: 20.0,
