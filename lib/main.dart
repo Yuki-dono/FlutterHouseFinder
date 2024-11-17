@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; // Import the Login page
+import 'register.dart'; // Import the Register page
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // Added const for compatibility with tests
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +17,14 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/login': (context) => const Login(),
+        '/register': (context) => const Register(), // Register page route
       },
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key}); // Added const
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,12 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(
+                          context, '/login'); // Navigate to login page
                     },
                     style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero, // Square corners
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
                       ),
                       padding: const EdgeInsets.symmetric(
                         vertical: 20.0,
@@ -73,18 +76,14 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 16.0),
                   child: TextButton(
                     onPressed: () {
-                      // Add registration logic here
+                      Navigator.pushNamed(
+                          context, '/register'); // Navigate to register page
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 34, 124, 29),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                          bottomLeft:
-                              Radius.circular(12.0), // Bottom-left rounded
-                          topLeft: Radius.zero, // Square top-left corner
-                          topRight: Radius.zero, // Square top-right corner
-                          bottomRight:
-                              Radius.zero, // Square bottom-right corner
+                          bottomLeft: Radius.circular(12.0),
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -100,15 +99,15 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            const Expanded(
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 150),
-                    Row(children: [
-                      SizedBox(width: 30),
+                    const SizedBox(height: 150),
+                    const Row(children: [
+                      SizedBox(width: 40),
                       SizedBox(
                         child: Column(
                           children: [
@@ -118,12 +117,58 @@ class HomePage extends StatelessWidget {
                             ),
                             Text(
                               'near your university',
-                              style: TextStyle(fontSize: 40),
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ),
-                    ])
+                    ]),
+
+                    // Inserted Card widget here
+                    Row(
+                      children: [
+                        const SizedBox(width: 30),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(16), // Rounded corners
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green, // Green header
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(
+                                        16), // Rounded top corners
+                                  ),
+                                ),
+                                child: const Text(
+                                  'ADD YOUR PROPERTY IN <FROM LOCATION> ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                  color: Colors.white, // White body
+                                  padding: const EdgeInsets.all(16),
+                                  child: const Column(
+                                    children: [
+                                      SizedBox(height: 30),
+                                      Text('Sample Text'),
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
