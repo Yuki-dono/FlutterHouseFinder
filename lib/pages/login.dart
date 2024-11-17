@@ -28,22 +28,6 @@ class Login extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 40),
                 child: TextButton(
                   onPressed: () {
-                    // Add navigation logic to the home screen
-                  },
-                  child: const Text(
-                    "BACK TO HOME",
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 40),
-                child: TextButton(
-                  onPressed: () {
                     Navigator.pop(
                         context); // This will pop the current screen and return to the previous one
                   },
