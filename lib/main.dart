@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; // Import the Login page
+import 'pages/login.dart'; // Import the Login page
 
 void main() {
   runApp(const MyApp());
@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                       Navigator.pushNamed(context, '/login');
                     },
                     style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero, // Square corners
                       ),
                       padding: const EdgeInsets.symmetric(

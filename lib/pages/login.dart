@@ -35,19 +35,19 @@ class Login extends StatelessWidget {
                       Positioned(
                         child: Container(
                           color: Colors.green,
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Login / Sign Up",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
+                                  
                             ),
                           ),
                         ),
                       ),
                       // Email Field
-                      SizedBox(height: 20),
-
+                      const SizedBox(height: 20),
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Email',
