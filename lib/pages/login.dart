@@ -7,48 +7,49 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 40),
-                child: Text(
-                  "Safe Stay",
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Color.fromARGB(255, 34, 124, 29),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 40),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(
-                        context); // This will pop the current screen and return to the previous one
-                  },
-                  child: const Text(
-                    "BACK TO HOME",
+      body: SingleChildScrollView(
+        // Wrap the entire body with SingleChildScrollView
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 40),
+                  child: Text(
+                    "Safe Stay",
                     style: TextStyle(
                       fontSize: 30,
-                      color: Colors.grey,
+                      color: Color.fromARGB(255, 34, 124, 29),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          // Center the entire login form content
-          Center(
-            child: Container(
-              width: 500, // Set a max width for the container
-              color: Colors.white,
-              child: SingleChildScrollView(
+                Padding(
+                  padding: const EdgeInsets.only(right: 40),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(
+                          context); // This will pop the current screen and return to the previous one
+                    },
+                    child: const Text(
+                      "BACK TO HOME",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Center the entire login form content
+            Center(
+              child: Container(
+                width: 500, // Set a max width for the container
+                color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -63,26 +64,26 @@ class Login extends StatelessWidget {
                         children: [
                           // Full-width green header with "Login / Sign Up" text
                           Container(
-                              width:
-                                  double.infinity, // Ensure it spans full width
-                              padding: const EdgeInsets.all(16),
-                              decoration: const BoxDecoration(
-                                color: Colors.green, // Green background
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(
-                                      16), // Rounded top corners
+                            width:
+                                double.infinity, // Ensure it spans full width
+                            padding: const EdgeInsets.all(16),
+                            decoration: const BoxDecoration(
+                              color: Colors.green, // Green background
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(16), // Rounded top corners
+                              ),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Login / Sign Up",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              child: Center(
-                                child: const Text(
-                                  "Login / Sign Up",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )),
+                            ),
+                          ),
                           const SizedBox(height: 20),
 
                           const Text(
@@ -201,7 +202,7 @@ class Login extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 50),
+                                const SizedBox(height: 50),
                               ],
                             ),
                           ),
@@ -212,8 +213,8 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
