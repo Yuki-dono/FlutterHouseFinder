@@ -255,17 +255,31 @@ class _RegisterState extends State<Register> {
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(
+                                  11), // Limit input to 11 digits
                             ],
                             decoration: InputDecoration(
                               hintText: 'Contact Number',
+                              counterText:
+                                  "", // Hide the default character counter
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 34, 124, 29),
-                                    width: 2.0),
+                                  color: Color.fromARGB(255, 34, 124, 29),
+                                  width: 2.0,
+                                ),
                               ),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a phone number';
+                              } else if (value.length != 11) {
+                                return 'Phone number must be exactly 11 digits';
+                              }
+                              return null;
+                            },
                           ),
+
                           const SizedBox(height: 30),
                           // Register Button
                           SizedBox(
