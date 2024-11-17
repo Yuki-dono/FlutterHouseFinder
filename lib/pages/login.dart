@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -6,117 +8,251 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: 350, // Fixed width for the container
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        // Wrap the entire body with SingleChildScrollView
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 40),
+                  child: Text(
+                    "Safe Stay",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Color.fromARGB(255, 34, 124, 29),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  // Form Section
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Space for the header
-                      const SizedBox(height: 10),
-                      Positioned(
-                        child: Container(
-                          color: Colors.green,
-                          child: const Center(
-                            child: Text(
-                              "Login / Sign Up",
-                              style: TextStyle(
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 40),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(
+                          context); // This will pop the current screen and return to the previous one
+                    },
+                    child: const Text(
+                      "BACK TO HOME",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Center the entire login form content
+            Center(
+              child: Container(
+                width: 500, // Set a max width for the container
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 50),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      elevation: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Full-width green header with "Login / Sign Up" text
+                          Container(
+                            width:
+                                double.infinity, // Ensure it spans full width
+                            padding: const EdgeInsets.all(16),
+                            decoration: const BoxDecoration(
+                              color: Colors.green, // Green background
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(16), // Rounded top corners
+                              ),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Login / Sign Up",
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                                  
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      // Email Field
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Welcome to Safe Stay!',
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
                           ),
-                          prefixIcon: const Icon(Icons.email),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-
-                      const SizedBox(height: 20), // Space between fields
-
-                      // Password Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                          const SizedBox(height: 20),
+                          // Input fields for login
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Email Address',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 34, 124, 29),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 34, 124, 29),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                  ),
+                                  obscureText: true,
+                                ),
+                                const SizedBox(height: 30),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Login logic
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Colors.green, // Button color
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            16.0), // Rounded corners
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Continue",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white, // Text color
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                // Centered divider with text in the middle
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Divider(
+                                        thickness: 1,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: Text(
+                                        "OR WITH",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Divider(
+                                        thickness: 1,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      // Google login logic
+                                    },
+                                    icon: const FaIcon(
+                                      FontAwesomeIcons.google,
+                                      size: 25.0,
+                                      color: Colors.white, // Set icon color to white
+                                    ),
+                                    label: Text(
+                                      "",
+                                      style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600
+                                        )
+                                      )
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green, // Button color
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      // Google login logic
+                                    },
+                                    icon: const Icon(
+                                      Icons.person,
+                                      size: 30.0,
+                                      color: Colors.white, // Set icon color to white
+                                    ),
+                                    label: Text(
+                                      "",
+                                      style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600
+                                        )
+                                      )
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Colors.green, // Button color
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            16.0), // Rounded corners
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          prefixIcon: const Icon(Icons.lock),
-                        ),
-                        obscureText: true,
+                        ],
                       ),
-
-                      const SizedBox(
-                          height: 30), // Space before the login button
-
-                      // Login Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Handle login logic here
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(
-                          height: 10), // Space before the back button
-
-                      // Back Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(
-                                context); // Navigate back to home page
-                          },
-                          child: const Text(
-                            'Back',
-                            style: TextStyle(color: Colors.green, fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
