@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:safe_stay/api/db_details.dart'; //Supabase - DO NOT TOUCH
@@ -8,10 +7,12 @@ class Authentication {
 
   User? get currentUserLoggedIn => supabaseDB.auth.currentUser;
 
-  Future<AuthResponse> _googleSignIn() async {
+  Future<AuthResponse> gAppSignIn() async {
     //This should be invisble
     const webClientID = '640817449565-qtk6lm0iqsd2a3sntg6das717v7coisr.apps.googleusercontent.com';
+    
     final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId: webClientID,
       serverClientId: webClientID, 
     );
 
@@ -53,18 +54,21 @@ class Authentication {
   // }
 
   //Email and Password Custom SignUP(via SP Default ra)
-  Future<void> signUp (String email, String password) async { 
+  Future<void> signUp (String userMail, String userPass) async { 
+
+    print(userMail);
+    print(userPass);
+
     try{
       final fetchResponse = await supabaseDB.auth.signUp(
-        email: email, 
-        password: password
+        email: userMail,
+        password: userPass
       );
-
       if (fetchResponse.user == null){
-        throw Exception("Failed to sign-up ueser");
+        throw Exception("User creation failed.");
       }
     }catch (err){
-      throw Exception('Error in signing-up user: $err');
+      throw Exception('Sign-up error: $err');
     }
   }
 
@@ -76,9 +80,11 @@ class Authentication {
         password: password);
 
       if(fetchRespose.session == null){
+        signUp(email, password);
         throw Exception('Failed to sign-in user');
       }
     }catch (err){
+      signUp(email, password);
       throw Exception('Error in signing-in user: $err');
     }
   }

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:safe_stay/api/db_details.dart';
+import 'package:safe_stay/api/services/authentication.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+//Varibles for the functions
+  final appAuth = Authentication();
+  final TextEditingController userEmail = TextEditingController();
+  final TextEditingController userPass = TextEditingController();
+
+  Login({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -66,8 +74,7 @@ class Login extends StatelessWidget {
                         children: [
                           // Full-width green header with "Login / Sign Up" text
                           Container(
-                            width:
-                                double.infinity, // Ensure it spans full width
+                            width: double.infinity, // Ensure it spans full width
                             padding: const EdgeInsets.all(16),
                             decoration: const BoxDecoration(
                               color: Colors.green, // Green background
@@ -99,6 +106,7 @@ class Login extends StatelessWidget {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  controller: userEmail,
                                   decoration: InputDecoration(
                                     hintText: 'Email Address',
                                     border: OutlineInputBorder(
@@ -112,6 +120,7 @@ class Login extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
+                                  controller: userPass,
                                   decoration: InputDecoration(
                                     hintText: 'Password',
                                     border: OutlineInputBorder(
@@ -128,8 +137,13 @@ class Login extends StatelessWidget {
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      // Login logic
+                                    onPressed: () async {
+                                      String email = userEmail.text;
+                                      String pass = userPass.text;
+
+                                      print(email);
+                                      print(pass);
+                                      await appAuth.signUp(email, pass);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -181,8 +195,8 @@ class Login extends StatelessWidget {
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      // Google login logic
+                                    onPressed: () async {
+                                      await appAuth.gAppSignIn();
                                     },
                                     icon: const FaIcon(
                                       FontAwesomeIcons.google,
@@ -212,8 +226,8 @@ class Login extends StatelessWidget {
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      // Google login logic
+                                    onPressed: () async {
+                                      await supabaseDB.auth.signInAnonymously();
                                     },
                                     icon: const Icon(
                                       Icons.person,

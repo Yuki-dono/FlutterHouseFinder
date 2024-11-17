@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '/pages/login.dart';
 import '/pages/register.dart';
+
+// Services, Models and Calls -- PLZ DONT TOUCH BRU
 import '/api/db_details.dart';
+import 'package:safe_stay/api/services/authentication.dart';
 
 void main() {
   supabaseInit(); // Global Init of our Supabase DB
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/login': (context) => const Login(),
+        '/login': (context) => Login(),
         '/register': (context) => const Register(), // Register page route
       },
     );
