@@ -3,16 +3,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safe_stay/api/db_details.dart';
 
 class Authentication {
-
   // don't touch - regex checking for email.
   bool isValidEmail(String email) {
     return RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
         .hasMatch(email);
   }
 
-  
   Future<AuthResponse> signInWithEmail(String email, String password) async {
-
     if (email.trim().isEmpty || password.trim().isEmpty) {
       throw 'Email and password cannot be empty';
     }
@@ -32,14 +29,14 @@ class Authentication {
       );
       return response;
     } on AuthException catch (e) {
-      print('Auth Exception: ${e.message}'); 
+      print('Auth Exception: ${e.message}');
       if (e.message.contains('Invalid login credentials')) {
         signUp(email, password);
         throw 'Invalid email or password';
       }
       throw e.message;
     } catch (e) {
-      print('Sign In Error: $e');  
+      print('Sign In Error: $e');
       throw 'Failed to sign in. Please try again.';
     }
   }
@@ -61,16 +58,17 @@ class Authentication {
       final response = await supabaseDB.auth.signUp(
         email: email.trim(),
         password: password.trim(),
-        emailRedirectTo: 'https://yourdomain.com/auth/callback', // Replace with your actual redirect URL
+        emailRedirectTo:
+            'https://qpetohtluhvwrrpletja.supabase.co/auth/v1/callback', // Replace with your actual redirect URL
       );
-      
+
       if (response.user == null) {
         throw 'Failed to create account';
       }
-      
+
       return response;
     } on AuthException catch (e) {
-      print('Auth Exception: ${e.message}');  // For debugging
+      print('Auth Exception: ${e.message}'); // For debugging
       if (e.message.contains('User already registered')) {
         throw 'This email is already registered';
       } else if (e.message.contains('not authorized')) {
@@ -78,7 +76,7 @@ class Authentication {
       }
       throw e.message;
     } catch (e) {
-      print('Sign Up Error: $e');  // For debugging
+      print('Sign Up Error: $e'); // For debugging
       throw 'Failed to create account. Please try again.';
     }
   }
@@ -87,7 +85,8 @@ class Authentication {
   Future<AuthResponse> gAppSignIn() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn(
-        clientId: "640817449565-qtk6lm0iqsd2a3sntg6das717v7coisr.apps.googleusercontent.com",
+        clientId:
+            "640817449565-qtk6lm0iqsd2a3sntg6das717v7coisr.apps.googleusercontent.com",
       );
 
       final googleUser = await googleSignIn.signIn();
@@ -138,7 +137,8 @@ class Authentication {
       }
       throw 'Failed after multiple attempts';
     } on AuthException catch (e) {
-      print('Auth Exception Details: ${e.message}, Status: ${e.statusCode}, Error Code: ${e.code}');
+      print(
+          'Auth Exception Details: ${e.message}, Status: ${e.statusCode}, Error Code: ${e.code}');
       throw 'Authentication failed: ${e.message}';
     } catch (e) {
       print('Detailed error: $e');
