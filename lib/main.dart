@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
-import '/pages/login.dart';
-import '/pages/register.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 // Services, Models and Calls -- PLZ DONT TOUCH BRU
 import '/api/db_details.dart';
-import 'package:safe_stay/api/services/authentication.dart';
+import 'package:safe_stay/router/router.dart';
 
 void main() {
   supabaseInit(); // Global Init of our Supabase DB
-  runApp(const MyApp());
+  runApp(const ProviderScope(
+    child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref){
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      routerConfig: router,
+      //Please naman don't forget this line at least
+      debugShowCheckedModeBanner: false,
       title: 'Safe Stay',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/login': (context) => Login(),
-        '/register': (context) => const Register(), // Register page route
-      },
     );
   }
 }
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -58,8 +61,7 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context, '/login'); // Navigate to login page
+                        GoRouter.of(context).go('/Login');
                       },
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -186,3 +188,12 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+// initialRoute: '/',
+//       routes: {
+//         '/': (context) => HomePage(),
+//         '/login': (context) => Login(),
+//         '/register': (context) => Register(), // Register page route
+//       }

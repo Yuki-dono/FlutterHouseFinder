@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:safe_stay/api/db_details.dart';
-import 'package:safe_stay/api/services/authentication.dart';
+import 'package:safe_stay/api/riverpod/authState.dart';
 
-class Login extends StatelessWidget {
-//Varibles for the functions
-  final appAuth = Authentication();
-  final TextEditingController userEmail = TextEditingController();
-  final TextEditingController userPass = TextEditingController();
+class Login extends ConsumerWidget {
+  final userEmail = TextEditingController();
+  final userPass = TextEditingController();
 
   Login({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch auth state
+    final authState = ref.watch(authProvider);
     
+    // Show loading indicator when authenticating
+    if (authState.status == AuthStatus.authenticating) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    // Show error message if there's an error
+    if (authState.status == AuthStatus.error) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(authState.errorMessage ?? 'An error occurred')),
+        );
+      });
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -100,6 +118,7 @@ class Login extends StatelessWidget {
                                 fontSize: 30, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 20),
+
                           // Input fields for login
                           Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -138,29 +157,37 @@ class Login extends StatelessWidget {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      String email = userEmail.text;
-                                      String pass = userPass.text;
-
-                                      print(email);
-                                      print(pass);
-                                      await appAuth.signUp(email, pass);
+                                      final email = userEmail.text.trim();
+                                      final password = userPass.text.trim();
+                                      
+                                      if (email.isEmpty || password.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('Please fill in all fields')),
+                                        );
+                                        return;
+                                      }
+                                      
+                                      try {
+                                        await ref.read(authProvider.notifier).signInWithEmail(email, password);
+                                      } catch (_) {
+                                        // If sign in fails, try to sign up
+                                        await ref.read(authProvider.notifier).signUp(email, password);
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Colors.green, // Button color
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20.0),
+                                      backgroundColor: Colors.green,
+                                      padding: const EdgeInsets.symmetric(vertical: 20.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            16.0), // Rounded corners
+                                        borderRadius: BorderRadius.circular(16.0),
                                       ),
                                     ),
                                     child: const Text(
                                       "Continue",
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.white, // Text color
-                                          fontWeight: FontWeight.bold),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -196,7 +223,7 @@ class Login extends StatelessWidget {
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                     onPressed: () async {
-                                      await appAuth.gAppSignIn();
+                                      ref.read(authProvider.notifier).signInWithGoogle();
                                     },
                                     icon: const FaIcon(
                                       FontAwesomeIcons.google,
@@ -206,11 +233,11 @@ class Login extends StatelessWidget {
                                     label: Text(
                                       "",
                                       style: GoogleFonts.raleway(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600
-                                        )
+                                          textStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600
+                                          )
                                       )
                                     ),
                                     style: ElevatedButton.styleFrom(
@@ -227,7 +254,7 @@ class Login extends StatelessWidget {
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                     onPressed: () async {
-                                      await supabaseDB.auth.signInAnonymously();
+                                      ref.read(authProvider.notifier).signInAnonymously();
                                     },
                                     icon: const Icon(
                                       Icons.person,
@@ -237,16 +264,16 @@ class Login extends StatelessWidget {
                                     label: Text(
                                       "",
                                       style: GoogleFonts.raleway(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600
-                                        )
+                                          textStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600
+                                          )
                                       )
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          Colors.green, // Button color
+                                      Colors.green, // Button color
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16.0),
                                       shape: RoundedRectangleBorder(
@@ -255,7 +282,7 @@ class Login extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
