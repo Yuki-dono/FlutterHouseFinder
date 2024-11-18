@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+//For routing -- plz don't touch
+import 'package:safe_stay/router/router.dart';
+import 'package:go_router/go_router.dart';
+
+
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -58,8 +63,7 @@ class _RegisterState extends State<Register> {
                   padding: const EdgeInsets.only(right: 40),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pop(
-                          context); // This will pop the current screen and return to the previous one
+                      GoRouter.of(context).go('/'); // This will pop the current screen and return to the previous one
                     },
                     child: const Text(
                       "BACK TO HOME",

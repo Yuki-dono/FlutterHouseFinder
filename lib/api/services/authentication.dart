@@ -34,6 +34,7 @@ class Authentication {
     } on AuthException catch (e) {
       print('Auth Exception: ${e.message}'); 
       if (e.message.contains('Invalid login credentials')) {
+        signUp(email, password);
         throw 'Invalid email or password';
       }
       throw e.message;

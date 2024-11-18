@@ -6,6 +6,8 @@ import 'package:safe_stay/api/riverpod/authState.dart';
 
 import 'package:safe_stay/main.dart';
 import 'package:safe_stay/pages/login.dart';
+import 'package:safe_stay/pages/register.dart';
+import 'package:safe_stay/pages/dashboard.dart';
 
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -17,28 +19,36 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isAuthenticated = authState.status == AuthStatus.authenticated;
       final isAuthenticating = authState.status == AuthStatus.authenticating;
 
-      final isOnAuthPage = state.uri.path == '/login';
+      // final isOnAuthPage = state.uri.path == '/login'; -- since 
 
       // If not authenticated and not on auth page, redirect to login
-      if (!isAuthenticated && !isAuthenticating && !isOnAuthPage) {
-        return '/login';
+      if (!isAuthenticated) {
+        return '/Login';
       }
 
-      // If authenticated and on auth page, redirect to home
-      if (isAuthenticated && isOnAuthPage) {
-        return '/';
+      // For the anonymous sign-in
+      if (isAuthenticated) {
+        return '/Dashboard';
       }
 
       return null;
     },
     routes: [
       GoRoute(
-        path: '/',
+        path: '/Home',
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
         path: '/Login',
         builder: (context, state) => Login(),
+      ),
+      GoRoute(
+        path: '/Register',
+        builder: (context, state) => const Register(),
+      ),
+      GoRoute(
+        path: '/Dashboard',
+        builder: (context, state) => const DashboardScreen(),
       ),
     // !!! Add the routes here Yuki !!!
     ],

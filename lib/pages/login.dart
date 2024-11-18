@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safe_stay/api/riverpod/authState.dart';
+import 'package:safe_stay/router/router.dart';
 
 class Login extends ConsumerWidget {
   final userEmail = TextEditingController();
@@ -58,8 +60,7 @@ class Login extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 40),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pop(
-                          context); // This will pop the current screen and return to the previous one
+                      GoRouter.of(context).go('/Home');
                     },
                     child: const Text(
                       "BACK TO HOME",
@@ -170,8 +171,15 @@ class Login extends ConsumerWidget {
                                       try {
                                         await ref.read(authProvider.notifier).signInWithEmail(email, password);
                                       } catch (_) {
-                                        // If sign in fails, try to sign up
-                                        await ref.read(authProvider.notifier).signUp(email, password);
+                                        // Catching if account doesn't exist, then it automatically registers a new one
+                                        try {
+                                          await ref.read(authProvider.notifier).signUp(email, password);
+                                        } catch (e) {
+                                          // Handle sign-up error (e.g., show a SnackBar)
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('Error signing up: ${e.toString()}')),
+                                          );
+                                        }
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(

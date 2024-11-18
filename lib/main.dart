@@ -85,8 +85,7 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 16.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context, '/register'); // Navigate to register page
+                        GoRouter.of(context).go('/Register'); // Navigate to register page
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 34, 124, 29),
