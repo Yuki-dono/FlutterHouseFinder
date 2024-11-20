@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  final String imageUrl;
+  final String imageUrl; // Keep this as a single image URL
   final String price;
   final String name;
   final String location;
@@ -21,28 +21,92 @@ class ProductCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Product Details'),
-          content: SingleChildScrollView(
-            child: ListBody(
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Rounded corners
+          ),
+          child: Container(
+            width: 400, // Custom width for the dialog
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Dialog size adapts to content
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                // Display the information in the dialog
-                Text('Name: $name'),
-                Text('Location: $location'),
-                Text('Price: $price'),
-                Text('Image URL: $imageUrl'),
-                Text('Date Listed: $dateListed'),
+                // Image carousel using PageView
+                Container(
+                  width: 350, // Fixed width for the image carousel
+                  height: 200, // Height of the carousel
+                  child: PageView(
+                    children: [
+                      // First image from the product URL
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          imageUrl,
+                          width:
+                              350, // Set the width of the image inside the carousel
+                          height: 200, // Set the height for consistency
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      // Second mock image (placeholder)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          'https://via.placeholder.com/350x200', // Example second image
+                          width:
+                              350, // Set the width of the image inside the carousel
+                          height: 200, // Set the height for consistency
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      // Third mock image (another placeholder)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          'https://via.placeholder.com/350x200?text=Image+3', // Another placeholder
+                          width:
+                              350, // Set the width of the image inside the carousel
+                          height: 200, // Set the height for consistency
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Centered text info in the dialog
+                Text(
+                  'Date Listed: $dateListed',
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Name: $name',
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Location: $location',
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Price: $price',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                // Close button aligned at the bottom
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    child: const Text('Close'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                  ),
+                ),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-          ],
         );
       },
     );
@@ -58,25 +122,24 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Container(
-          width: 200, // Set fixed width
-          height: 200, // Set fixed height
+          width: 200, // Set fixed width for the card
+          height: 200, // Set fixed height for the card
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Make the image expand to fill all available space
+              // Image inside the card
               Expanded(
-                flex: 2, // This allows the image to take up more space
+                flex: 2, // Image takes more space
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                   child: Image.network(
-                    imageUrl, // Use the provided image URL
-                    fit: BoxFit
-                        .cover, // Ensure the image scales properly to fill the container
-                    width: 200, // Set width to match the container width
+                    imageUrl, // Display the image
+                    fit: BoxFit.cover,
+                    width: 200, // Match the container's width
                   ),
                 ),
               ),
-              // This will ensure the footer stays at the bottom
+              // Footer with price
               ClipRRect(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(30)),
