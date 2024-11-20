@@ -16,7 +16,7 @@ class Login extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Watch auth state
     final authState = ref.watch(authProvider);
-    
+
     // Show loading indicator when authenticating
     if (authState.status == AuthStatus.authenticating) {
       return const Scaffold(
@@ -30,7 +30,8 @@ class Login extends ConsumerWidget {
     if (authState.status == AuthStatus.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authState.errorMessage ?? 'An error occurred')),
+          SnackBar(
+              content: Text(authState.errorMessage ?? 'An error occurred')),
         );
       });
     }
@@ -93,7 +94,8 @@ class Login extends ConsumerWidget {
                         children: [
                           // Full-width green header with "Login / Sign Up" text
                           Container(
-                            width: double.infinity, // Ensure it spans full width
+                            width:
+                                double.infinity, // Ensure it spans full width
                             padding: const EdgeInsets.all(16),
                             decoration: const BoxDecoration(
                               color: Colors.green, // Green background
@@ -160,33 +162,45 @@ class Login extends ConsumerWidget {
                                     onPressed: () async {
                                       final email = userEmail.text.trim();
                                       final password = userPass.text.trim();
-                                      
+
                                       if (email.isEmpty || password.isEmpty) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text('Please fill in all fields')),
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Please fill in all fields')),
                                         );
                                         return;
                                       }
-                                      
+
                                       try {
-                                        await ref.read(authProvider.notifier).signInWithEmail(email, password);
+                                        await ref
+                                            .read(authProvider.notifier)
+                                            .signInWithEmail(email, password);
                                       } catch (_) {
                                         // Catching if account doesn't exist, then it automatically registers a new one
                                         try {
-                                          await ref.read(authProvider.notifier).signUp(email, password);
+                                          await ref
+                                              .read(authProvider.notifier)
+                                              .signUp(email, password);
                                         } catch (e) {
                                           // Handle sign-up error (e.g., show a SnackBar)
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Error signing up: ${e.toString()}')),
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    'Error signing up: ${e.toString()}')),
                                           );
                                         }
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
-                                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16.0),
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
                                       ),
                                     ),
                                     child: const Text(
@@ -194,8 +208,7 @@ class Login extends ConsumerWidget {
                                       style: TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
@@ -211,8 +224,8 @@ class Login extends ConsumerWidget {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8.0),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
                                       child: Text(
                                         "OR WITH",
                                         style: TextStyle(color: Colors.grey),
@@ -231,28 +244,30 @@ class Login extends ConsumerWidget {
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                     onPressed: () async {
-                                      ref.read(authProvider.notifier).signInWithGoogle();
+                                      ref
+                                          .read(authProvider.notifier)
+                                          .signInWithGoogle();
                                     },
                                     icon: const FaIcon(
                                       FontAwesomeIcons.google,
                                       size: 25.0,
-                                      color: Colors.white, // Set icon color to white
+                                      color: Colors
+                                          .white, // Set icon color to white
                                     ),
-                                    label: Text(
-                                      "",
-                                      style: GoogleFonts.raleway(
-                                          textStyle: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w600
-                                          )
-                                      )
-                                    ),
+                                    label: Text("",
+                                        style: GoogleFonts.raleway(
+                                            textStyle: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600))),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green, // Button color
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      backgroundColor:
+                                          Colors.green, // Button color
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                                        borderRadius: BorderRadius.circular(
+                                            16.0), // Rounded corners
                                       ),
                                     ),
                                   ),
@@ -262,26 +277,25 @@ class Login extends ConsumerWidget {
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                     onPressed: () async {
-                                      ref.read(authProvider.notifier).signInAnonymously();
+                                      ref
+                                          .read(authProvider.notifier)
+                                          .signInAnonymously();
                                     },
                                     icon: const Icon(
                                       Icons.person,
                                       size: 30.0,
-                                      color: Colors.white, // Set icon color to white
+                                      color: Colors
+                                          .white, // Set icon color to white
                                     ),
-                                    label: Text(
-                                      "",
-                                      style: GoogleFonts.raleway(
-                                          textStyle: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600
-                                          )
-                                      )
-                                    ),
+                                    label: Text("",
+                                        style: GoogleFonts.raleway(
+                                            textStyle: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600))),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                      Colors.green, // Button color
+                                          Colors.green, // Button color
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16.0),
                                       shape: RoundedRectangleBorder(
