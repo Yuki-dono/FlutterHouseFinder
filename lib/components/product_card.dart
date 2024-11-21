@@ -41,7 +41,10 @@ class ProductCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 // Centered text info in the dialog
                 Text(
-                  'Name: ${propertyList[index].propName}',
+                  propertyList[index].propName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,  
+                    fontSize: 30,                ),
                   textAlign: TextAlign.center,
                 ),
                 //Location

@@ -81,47 +81,44 @@ class DashboardScreenState extends ConsumerState<DashboardScreen>{
     );
   }
 
-  Widget _buildContainter(BuildContext context){
-    final fetchProperties = ref.watch(fetchPropertyList);
-
-    return fetchProperties.when(
-      data: (properties) {
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            elevation: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildDashboardHeader(),
-                const SizedBox(height: 20),
-                //Insert Product Card here
-                // Product Card Integration
-                Container(
-                  height: 300,
-                  child: ListView.builder(
-                    itemCount: properties.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ProductCard(propertyList: properties, index: index);
-                    },
-                  ),
-                ),
-                const SizedBox( height: 20), // Space between product card and text
-              ],
-            ),
+  Widget _buildContainter(BuildContext context) {
+  final fetchProperties = ref.watch(fetchPropertyList);
+  return fetchProperties.when(
+    data: (properties) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
           ),
-        );
-      }, 
-      error: (err, stackTrace) => Text('Error fetching data from table: $err'), 
-      loading: () => const LinearProgressIndicator(
-        backgroundColor: Color.fromRGBO(48, 203, 34, 1),
-      )
-    );
-  }
+          elevation: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildDashboardHeader(),
+              const SizedBox(height: 20),
+              // Product Card Integration using Wrap
+              Wrap(
+                spacing: 20, // Spacing between cards horizontally
+                runSpacing: 20, // Spacing between cards vertically
+                alignment: WrapAlignment.spaceAround, // Distribute cards evenly
+                children: properties.map((property) {
+                  return ProductCard(propertyList: properties, index: properties.indexOf(property));
+                }).toList(),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      );
+    },
+    error: (err, stackTrace) => Text('Error fetching data from table: $err'),
+    loading: () => const LinearProgressIndicator(
+      backgroundColor: Color.fromRGBO(48, 203, 34, 1),
+    ),
+  );
+}
 
   Widget _buildDashboardHeader(){
     return Container(

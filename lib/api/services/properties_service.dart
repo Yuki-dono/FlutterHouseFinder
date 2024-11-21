@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safe_stay/api/db_details.dart';
