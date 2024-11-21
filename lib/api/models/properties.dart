@@ -1,18 +1,18 @@
 class PropertyData {
   final int propID;
-  final DateTime dateListed;
   final String propName;
   final String propLocation;
   final double propPrice;
-  final String propURL;
+  final String propTag;
+  final List<String> propURL;
 
   PropertyData({
     required this.propID,
-    required this.dateListed,
     required this.propName,
     required this.propLocation,
     required this.propPrice,
-    required this.propURL
+    required this.propTag,
+    required this.propURL,
   });
 
   //FromJSON - fetching/grabbing data from the database
@@ -22,8 +22,8 @@ class PropertyData {
       propName: json['name'], 
       propLocation: json['location'], 
       propPrice: json['price'], 
-      propURL: json['imageURL'],
-      dateListed: json['dateListed']
+      propTag: json['tagName'],
+      propURL: List<String>.from(json['imageURL']),
     );
   }
 
@@ -35,7 +35,6 @@ class PropertyData {
       'location': propLocation,
       'price': propPrice,
       'imageURL': propURL,
-      'dateListed': dateListed , 
     };
   }
 }

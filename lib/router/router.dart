@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:safe_stay/api/riverpod/authState.dart';
+import 'package:safe_stay/api/riverpod/authentication_state.dart';
 
 import 'package:safe_stay/main.dart';
 import 'package:safe_stay/pages/login.dart';

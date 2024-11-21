@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:safe_stay/api/riverpod/authState.dart';
+import 'package:safe_stay/api/riverpod/authentication_state.dart';
 import 'package:safe_stay/router/router.dart';
 
 class Login extends ConsumerWidget {

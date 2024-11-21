@@ -1,10 +1,17 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// State Management
+//Backend
+import 'package:safe_stay/api/db_details.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:safe_stay/api/riverpod/authState.dart';
+
+//Backend
+import 'package:safe_stay/api/models/properties.dart';
+import 'package:safe_stay/api/riverpod/property_state.dart';
+import 'package:safe_stay/api/riverpod/authentication_state.dart';
 
 // Routing
 import 'package:go_router/go_router.dart';
@@ -13,11 +20,17 @@ import 'package:safe_stay/router/router.dart';
 // Import the ProductCard widget
 import 'package:safe_stay/components/product_card.dart'; // Import the ProductCard file
 
-class DashboardScreen extends ConsumerWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => DashboardScreenState();
+}
+
+class DashboardScreenState extends ConsumerState<DashboardScreen>{
+
+  @override
+  Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
     final userDetails = ref.watch(authProvider).user;
 
@@ -59,59 +72,84 @@ class DashboardScreen extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 20), // Space between row and card
-
+            _buildContainter(context),
             // Main Card you requested
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                elevation: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(16),
-                        ),
-                      ),
-                      child: const Row(children: [
-                        SizedBox(width: 30),
-                        Text(
-                          "Find your property here",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ]),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Product Card Integration
-                    ProductCard(
-                      imageUrl: 'https://via.placeholder.com/150',
-                      price: '\$19.99',
-                      name: 'Sample Property', // Added name
-                      location: 'New York, NY', // Added location
-                      dateListed: '2024-11-21', // Added date listed
-                    ),
-                    const SizedBox(
-                        height: 20), // Space between product card and text
-                  ],
-                ),
-              ),
-            ),
+            
           ],
         ),
       ),
     );
   }
+
+  Widget _buildContainter(BuildContext context){
+    final fetchProperties = ref.watch(fetchPropertyList);
+
+    return fetchProperties.when(
+      data: (properties) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildDashboardHeader(),
+                const SizedBox(height: 20),
+                //Insert Product Card here
+                // Product Card Integration
+                Container(
+                  child: ListView.builder(
+                    itemCount: properties.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProductCard(propertyList: properties, index: index);
+                    },
+                  ),
+                ),
+                const SizedBox( height: 20), // Space between product card and text
+              ],
+            ),
+          ),
+        );
+      }, 
+      error: (err, stackTrace) => Text('Error fetching data from table: $err'), 
+      loading: () => const LinearProgressIndicator(
+        backgroundColor: Color.fromRGBO(48, 203, 34, 1),
+      )
+    );
+  }
+
+  Widget _buildDashboardHeader(){
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      child: const Row(
+        children: [
+          SizedBox(width: 30),
+          Text(
+            "Find your property here",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
+
+
+  
+
