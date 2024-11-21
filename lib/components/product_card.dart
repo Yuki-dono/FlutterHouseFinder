@@ -75,21 +75,19 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget? _buildImageCarousel (BuildContext context, int imgIndex){
-    for(int i = 0; i < 3; i++){
-      return SizedBox(
+    return SizedBox(
         width: 350,
         height: 200,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(
-            propertyList[index].propURL[i],
+            propertyList[index].propURL[imgIndex],
             width: 350, // Set the width of the image inside the carousel
             height: 200, // Set the height for consistency
             fit: BoxFit.cover,
           ),
         ),
       );
-    }
   }
 
   @override
@@ -113,7 +111,7 @@ class ProductCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
                   child: Image.network(
-                    propertyList[index].propURL[index],
+                    propertyList[index].propURL[0],
                     fit: BoxFit.cover,
                     width: double.infinity, // Stretch to fill available space
                   ),
