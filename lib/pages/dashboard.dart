@@ -102,6 +102,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen>{
                 //Insert Product Card here
                 // Product Card Integration
                 Container(
+                  height: 300,
                   child: ListView.builder(
                     itemCount: properties.length,
                     itemBuilder: (BuildContext context, int index) {

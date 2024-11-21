@@ -74,20 +74,22 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImageCarousel (BuildContext context, int imgIndex){
-    return SizedBox(
-      width: 350,
-      height: 200,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.network(
-          propertyList[index].propURL[imgIndex],
-          width: 350, // Set the width of the image inside the carousel
-          height: 200, // Set the height for consistency
-          fit: BoxFit.cover,
+  Widget? _buildImageCarousel (BuildContext context, int imgIndex){
+    for(int i = 0; i < 3; i++){
+      return SizedBox(
+        width: 350,
+        height: 200,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            propertyList[index].propURL[i],
+            width: 350, // Set the width of the image inside the carousel
+            height: 200, // Set the height for consistency
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -99,7 +101,7 @@ class ProductCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Container(
+        child: SizedBox(
           width: 200, // Set fixed width for the card
           height: 200, // Set fixed height for the card
           child: Column(
@@ -108,15 +110,12 @@ class ProductCard extends StatelessWidget {
               // Image inside the card
               SizedBox(
                 height: 200,
-                child: Expanded(
-                  flex: 2,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-                    child: Image.network(
-                      propertyList[index].propURL[index].toString(), // Display the image
-                      fit: BoxFit.cover,
-                      width: 200, // Match the container's width
-                    ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+                  child: Image.network(
+                    propertyList[index].propURL[index],
+                    fit: BoxFit.cover,
+                    width: double.infinity, // Stretch to fill available space
                   ),
                 ),
               ),
