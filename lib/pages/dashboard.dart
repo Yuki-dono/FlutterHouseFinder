@@ -95,7 +95,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Wrap(
                   spacing: 16.0,
                   runSpacing: 16.0,
-                  alignment: WrapAlignment.spaceEvenly,
+                  alignment: WrapAlignment.start,
                   children: properties.map((property) {
                     return SizedBox(
                       width: 150, // Square width
