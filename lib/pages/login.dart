@@ -1,10 +1,14 @@
+// Routing & Backend
+import 'package:safe_stay/main.dart';
+import 'package:safe_stay/router/router.dart';
+import 'package:safe_stay/api/riverpod/authentication_state.dart';
+
+// Flutter Imports
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:safe_stay/api/riverpod/authentication_state.dart';
-import 'package:safe_stay/router/router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Login extends ConsumerWidget {
   final userEmail = TextEditingController();
@@ -31,7 +35,8 @@ class Login extends ConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(authState.errorMessage ?? 'An error occurred')),
+            content: Text(authState.errorMessage ?? 'An error occurred'),
+          ),
         );
       });
     }
@@ -39,7 +44,6 @@ class Login extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        // Wrap the entire body with SingleChildScrollView
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -48,34 +52,31 @@ class Login extends ConsumerWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(left: 40),
-                  child: Text(
-                    "Safe Stay",
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Color.fromARGB(255, 34, 124, 29),
-                      fontWeight: FontWeight.bold,
+                  child: Center(
+                    child: Text(
+                      "Safe Stay",
+                      style: TextStyle(
+                        fontFamily: 'Etna',
+                        fontSize: 30,
+                        color: Color.fromARGB(255, 34, 124, 29),
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 40),
-                  child: TextButton(
-                    onPressed: () {
-                      GoRouter.of(context).go('/Home');
-                    },
-                    child: const Text(
-                      "BACK TO HOME",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        GoRouter.of(context).go('/home');
+                      },
+                      child: const Text("BACK TO HOME"),
                     ),
                   ),
                 ),
               ],
             ),
-            // Center the entire login form content
+            const SizedBox(height: 40),
             Center(
               child: Container(
                 width: 500, // Set a max width for the container
@@ -94,13 +95,12 @@ class Login extends ConsumerWidget {
                         children: [
                           // Full-width green header with "Login / Sign Up" text
                           Container(
-                            width:
-                                double.infinity, // Ensure it spans full width
+                            width: double.infinity,
                             padding: const EdgeInsets.all(16),
                             decoration: const BoxDecoration(
-                              color: Colors.green, // Green background
+                              color: Colors.green,
                               borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(16), // Rounded top corners
+                                top: Radius.circular(16),
                               ),
                             ),
                             child: const Center(
@@ -115,14 +115,16 @@ class Login extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          const Text(
-                            'Welcome to Safe Stay!',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                          const Center(
+                            child: Text(
+                              'Welcome to Safe Stay!',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 20),
-
-                          // Input fields for login
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
@@ -178,18 +180,17 @@ class Login extends ConsumerWidget {
                                             .read(authProvider.notifier)
                                             .signInWithEmail(email, password);
                                       } catch (_) {
-                                        // Catching if account doesn't exist, then it automatically registers a new one
                                         try {
                                           await ref
                                               .read(authProvider.notifier)
                                               .signUp(email, password);
                                         } catch (e) {
-                                          // Handle sign-up error (e.g., show a SnackBar)
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                                content: Text(
-                                                    'Error signing up: ${e.toString()}')),
+                                              content: Text(
+                                                  'Error signing up: ${e.toString()}'),
+                                            ),
                                           );
                                         }
                                       }
@@ -206,14 +207,14 @@ class Login extends ConsumerWidget {
                                     child: const Text(
                                       "Continue",
                                       style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                // Centered divider with text in the middle
                                 const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -224,8 +225,8 @@ class Login extends ConsumerWidget {
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Text(
                                         "OR WITH",
                                         style: TextStyle(color: Colors.grey),
@@ -251,23 +252,23 @@ class Login extends ConsumerWidget {
                                     icon: const FaIcon(
                                       FontAwesomeIcons.google,
                                       size: 25.0,
-                                      color: Colors
-                                          .white, // Set icon color to white
+                                      color: Colors.white,
                                     ),
                                     label: Text("",
                                         style: GoogleFonts.raleway(
-                                            textStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600))),
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Colors.green, // Button color
+                                      backgroundColor: Colors.green,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            16.0), // Rounded corners
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
                                       ),
                                     ),
                                   ),
@@ -284,23 +285,23 @@ class Login extends ConsumerWidget {
                                     icon: const Icon(
                                       Icons.person,
                                       size: 30.0,
-                                      color: Colors
-                                          .white, // Set icon color to white
+                                      color: Colors.white,
                                     ),
                                     label: Text("",
                                         style: GoogleFonts.raleway(
-                                            textStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600))),
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Colors.green, // Button color
+                                      backgroundColor: Colors.green,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            16.0), // Rounded corners
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
                                       ),
                                     ),
                                   ),

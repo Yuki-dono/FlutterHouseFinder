@@ -164,7 +164,7 @@ class ProductCard extends StatelessWidget {
                   const BorderRadius.vertical(bottom: Radius.circular(16)),
               child: Container(
                 padding: const EdgeInsets.all(8),
-                color: Colors.green,
+                color: const Color.fromARGB(255, 34, 124, 29),
                 child: Text(
                   propertyList[index].propName,
                   maxLines: 1,

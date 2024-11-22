@@ -185,15 +185,64 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget _buildBelowCardContainer() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      color: Color.fromARGB(255, 34, 124, 29),
-      child: const Center(
-        child: Text(
-          'Additional Information or Footer-like Content Goes Here',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-          ),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.all(25),
+        decoration: const BoxDecoration(
+          color: const Color.fromARGB(255, 34, 124, 29),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20)
+          )
+        ),
+        child: Column(
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+              children: [
+                Text(
+                  'This website is made by\nTADAYUKI HARUYAMA\nSHAHEEN AL ADWANI',
+                  style: TextStyle(color: Colors.white), 
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.facebook, color: Colors.white), 
+                    SizedBox(width: 10), // Spacing between icons
+                    Icon(Icons.g_translate, color: Colors.white), 
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 115),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.network('https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/logo.png'),
+                    ),
+                    const SizedBox(width: 5),
+                    const Text(
+                      'Safe Stay',
+                      style: TextStyle(
+                      fontFamily: 'Etna',
+                      fontSize: 23,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    ),
+                  ],
+                ),
+                const Text(
+                  'ALL RIGHTS RESERVED. © 2024',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
