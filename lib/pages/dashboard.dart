@@ -5,6 +5,15 @@ import 'package:safe_stay/api/riverpod/property_state.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
 import 'package:safe_stay/components/product_card.dart';
 
+//Notes for Shaheen
+// 1. Rating System
+// 2. Description
+// 3. Add/Update
+// 4. Soft-delete (Property is sold, NO DELETING!)
+// 5. Upload Images to bucket -> Links directly to PropID and is an array
+// 6. Profile System
+// 7. Fix Routing
+
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
@@ -21,7 +30,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Header with app name and logout
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

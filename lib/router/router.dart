@@ -13,40 +13,38 @@ final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/home',
     redirect: (context, state) {
       final isAuthenticated = authState.status == AuthStatus.authenticated;
       final isAuthenticating = authState.status == AuthStatus.authenticating;
 
-      // final isOnAuthPage = state.uri.path == '/login'; -- since
+      final isOnAuthPage = state.uri.path == '/login';
 
       // If not authenticated and not on auth page, redirect to login
-      if (!isAuthenticated) {
-        return '/Login';
+      if (!isAuthenticated && (state.uri.path != '/login')) {
+        return '/login';
+      }else if(isAuthenticated && ((state.uri.path == '/login') || (state.uri.path == '/home'))){
+        return '/dashboard';
+      }else{
+        return null;
       }
 
-      // For the anonymous sign-in
-      if (isAuthenticated) {
-        return '/Dashboard';
-      }
-
-      return null;
     },
     routes: [
       GoRoute(
-        path: '/Home',
+        path: '/home',
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
-        path: '/Login',
+        path: '/login',
         builder: (context, state) => Login(),
       ),
       GoRoute(
-        path: '/Register',
+        path: '/register',
         builder: (context, state) => const Register(),
       ),
       GoRoute(
-        path: '/Dashboard',
+        path: '/dashboard',
         builder: (context, state) => const DashboardScreen(),
       ),
       // !!! Add the routes here Yuki !!!
