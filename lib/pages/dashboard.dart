@@ -1,24 +1,9 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-//Backend
-import 'package:safe_stay/api/db_details.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-//Backend
 import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
-
-// Routing
-import 'package:go_router/go_router.dart';
-import 'package:safe_stay/router/router.dart';
-
-// Import the ProductCard widget
-import 'package:safe_stay/components/product_card.dart'; // Import the ProductCard file
+import 'package:safe_stay/components/product_card.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -27,18 +12,17 @@ class DashboardScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => DashboardScreenState();
 }
 
-class DashboardScreenState extends ConsumerState<DashboardScreen>{
-
+class DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    final userDetails = ref.watch(authProvider).user;
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Replacing AppBar with the Row widget
+            SizedBox(height: 20),
+            // Header with app name and logout
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,65 +46,72 @@ class DashboardScreenState extends ConsumerState<DashboardScreen>{
                     child: const Text(
                       'LOGOUT',
                       style: TextStyle(
-                        fontSize: 24, // You can adjust the font size
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // You can change the text color
+                        color: Colors.grey,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20), // Space between row and card
-            _buildContainter(context),
-            // Main Card you requested
-            
+            const SizedBox(height: 20),
+            _buildContainer(context),
+            const SizedBox(height: 20),
+            _buildBelowCardContainer(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildContainter(BuildContext context) {
-  final fetchProperties = ref.watch(fetchPropertyList);
-  return fetchProperties.when(
-    data: (properties) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
+  Widget _buildContainer(BuildContext context) {
+    final fetchProperties = ref.watch(fetchPropertyList);
+    return fetchProperties.when(
+      data: (properties) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 120),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildDashboardHeader(),
+                const SizedBox(height: 20),
+                // Product Card Integration using Wrap
+                Wrap(
+                  spacing: 16.0,
+                  runSpacing: 16.0,
+                  alignment: WrapAlignment.spaceEvenly,
+                  children: properties.map((property) {
+                    return SizedBox(
+                      width: 150, // Square width
+                      height: 150, // Square height
+                      child: ProductCard(
+                        propertyList: properties,
+                        index: properties.indexOf(property),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
-          elevation: 4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildDashboardHeader(),
-              const SizedBox(height: 20),
-              // Product Card Integration using Wrap
-              Wrap(
-                spacing: 20, // Spacing between cards horizontally
-                runSpacing: 20, // Spacing between cards vertically
-                alignment: WrapAlignment.spaceAround, // Distribute cards evenly
-                children: properties.map((property) {
-                  return ProductCard(propertyList: properties, index: properties.indexOf(property));
-                }).toList(),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      );
-    },
-    error: (err, stackTrace) => Text('Error fetching data from table: $err'),
-    loading: () => const LinearProgressIndicator(
-      backgroundColor: Color.fromRGBO(48, 203, 34, 1),
-    ),
-  );
-}
+        );
+      },
+      error: (err, stackTrace) => Text('Error fetching data from table: $err'),
+      loading: () => const LinearProgressIndicator(
+        backgroundColor: Color.fromRGBO(48, 203, 34, 1),
+      ),
+    );
+  }
 
-  Widget _buildDashboardHeader(){
+  Widget _buildDashboardHeader() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -146,8 +137,20 @@ class DashboardScreenState extends ConsumerState<DashboardScreen>{
     );
   }
 
+  Widget _buildBelowCardContainer() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      color: Color.fromARGB(255, 34, 124, 29),
+      child: const Center(
+        child: Text(
+          'Additional Information or Footer-like Content Goes Here',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
 }
-
-
-  
-

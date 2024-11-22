@@ -5,70 +5,119 @@ class ProductCard extends StatelessWidget {
   final List<PropertyData> propertyList;
   final int index;
 
-  // Constructor to initialize the image URL, price, and other details
   ProductCard({
     required this.propertyList,
     required this.index,
   });
 
-  // Function to display the dialog
   void _showDetailsDialog(BuildContext context) {
+    // Initialize a PageController to control the PageView
+    PageController pageController = PageController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Rounded corners
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            width: 400, // Custom width for the dialog
+            width: 300,
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Dialog size adapts to content
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                // Image carousel using PageView
-                SizedBox(
-                  width: 350, // Fixed width for the image carousel
-                  height: 200, // Height of the carousel
-                  child: PageView.builder(
-                    itemCount: propertyList[index].propURL.length, 
-                    itemBuilder: (BuildContext context, int index) {
-                      return _buildImageCarousel(context, index);
-                    },
+              mainAxisSize: MainAxisSize
+                  .min, // Ensures the dialog size adapts to its content
+              children: [
+                // Horizontally scrollable images (one at a time)
+                Container(
+                  height: 200, // Fixed height for images (adjust as needed)
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      PageView.builder(
+                        controller: pageController,
+                        itemCount: propertyList[index].propURL.length,
+                        itemBuilder: (BuildContext context, int imgIndex) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              propertyList[index].propURL[imgIndex],
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                  size: 50,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      // Left Navigation Button
+                      Positioned(
+                        left: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_left,
+                              color: Color.fromARGB(255, 34, 124, 29)),
+                          onPressed: () {
+                            // Navigate left
+                            if (pageController.page! > 0) {
+                              pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      // Right Navigation Button
+                      Positioned(
+                        right: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_right,
+                              color: Color.fromARGB(255, 34, 124, 29)),
+                          onPressed: () {
+                            // Navigate right
+                            if (pageController.page! <
+                                propertyList[index].propURL.length - 1) {
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Centered text info in the dialog
+                // Property Name
                 Text(
                   propertyList[index].propName,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w700,  
-                    fontSize: 30,                ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
                   textAlign: TextAlign.center,
                 ),
-                //Location
+                // Location
                 Text(
                   'Location: ${propertyList[index].propLocation}',
                   textAlign: TextAlign.center,
                 ),
-                //Price of Property
+                // Price
                 Text(
                   'Price: PHP ${propertyList[index].propPrice}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                // Close button aligned at the bottom
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    child: const Text('Close'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
@@ -77,69 +126,59 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget? _buildImageCarousel (BuildContext context, int imgIndex){
-    return SizedBox(
-        width: 350,
-        height: 200,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            propertyList[index].propURL[imgIndex],
-            width: 350, // Set the width of the image inside the carousel
-            height: 200, // Set the height for consistency
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showDetailsDialog(context), // Show the dialog on tap
+      onTap: () => _showDetailsDialog(context),
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(16), // Rounded corners
         ),
-        child: SizedBox(
-          width: 200, // Set fixed width for the card
-          height: 200, // Set fixed height for the card
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Image inside the card
-              SizedBox(
-                height: 200,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-                  child: Image.network(
-                    propertyList[index].propURL[0],
-                    fit: BoxFit.cover,
-                    width: double.infinity, // Stretch to fill available space
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Image inside the card
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(16)),
+              child: SizedBox(
+                height: 106,
+                child: Image.network(
+                  propertyList[index].propURL[0],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                      size: 50,
+                    );
+                  },
                 ),
               ),
-              // Footer with price
-              ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(30)),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  color: Colors.green,
-                  child: Text(
-                    propertyList[index].propName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
+            ),
+            // Footer with property name
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(16)),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                color: Colors.green,
+                child: Text(
+                  propertyList[index].propName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
