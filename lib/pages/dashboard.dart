@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
@@ -40,27 +41,61 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Text(
                     "Safe Stay",
                     style: TextStyle(
+                      fontFamily: 'Etna',
                       fontSize: 30,
                       color: Color.fromARGB(255, 34, 124, 29),
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 40),
-                  child: TextButton(
-                    onPressed: () async {
-                      await ref.read(authProvider.notifier).signOut();
-                    },
-                    child: const Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          await ref.read(authProvider.notifier).signOut();
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color.fromARGB(255, 190, 190, 190),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                            )
+                          ),
+                          textStyle: TextStyle(
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          minimumSize: const Size(125, 60),
+                        ),
+                        child: const Text('ADD A PROPERTY'),
                       ),
-                    ),
-                  ),
+                      const SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () async {
+                          await ref.read(authProvider.notifier).signOut();
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(34, 124, 29, 1),
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                            )
+                          ),
+                          textStyle: TextStyle(
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          minimumSize: const Size(125, 60),
+                        ),
+                        child: const Text('LOGOUT'),
+                      ),
+                    ],
+                  )
                 ),
               ],
             ),
@@ -125,20 +160,21 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        color: Colors.green,
+        color: Color.fromRGBO(34, 124, 29, 1),
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
           Text(
             "Find your property here",
             style: TextStyle(
+              fontFamily: GoogleFonts.raleway().fontFamily,
               color: Colors.white,
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ],
