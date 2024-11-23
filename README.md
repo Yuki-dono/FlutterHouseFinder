@@ -18,7 +18,7 @@ Adhering to modern design styles and functionality as found in similar web servi
 ## 🛠️ Frameworks
 Built using Google's Flutter + Dart Framework
 
-- <img src="https://github.com/user-attachments/assets/c0269506-a53e-4d47-8fab-630f8c67aa3d" width="5%"> [Flutter](https://docs.flutter.dev/get-started/install)
+- <img src="https://github.com/user-attachments/assets/c0269506-a53e-4d47-8fab-630f8c67aa3d" width="1%"> [Flutter](https://docs.flutter.dev/get-started/install)
 - ![logo (1)](https://github.com/user-attachments/assets/ec09abfe-70e4-45bd-b4ff-863f9510df84) [Riverpod](https://riverpod.dev/)
 - 
   
