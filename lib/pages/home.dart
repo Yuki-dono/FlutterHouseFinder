@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> imgBase = [
-      'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/aaron-huber-s95oB2n9jng-unsplash.jpg', 
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/aaron-huber-s95oB2n9jng-unsplash.jpg', 
     'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/bailey-anselme-Bkp3gLygyeA-unsplash.jpg', 
     'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/brian-babb-XbwHrt87mQ0-unsplash%20(1).jpg', 
     'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/dillon-kydd-2keCPb73aQY-unsplash%20(1).jpg', 
@@ -62,6 +62,8 @@ class Home extends StatelessWidget {
                   const SizedBox(width: 20),
                 ],
               ),
+              // const SizedBox(height: 100),
+              // _buildDownloadBanner(),
               const SizedBox(height: 100),
               _buildBelowCardContainer(),
             ],
@@ -96,9 +98,9 @@ class Home extends StatelessWidget {
             fontFamily: GoogleFonts.raleway().fontFamily,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 30),
         _buildCardSection(districts, sampleLoc),
-        const SizedBox(height: 250),
+        const SizedBox(height: 20),
         _buildMiniFooter(context),
       ],
     );
@@ -284,7 +286,7 @@ class Home extends StatelessWidget {
           child: Text(
             "About Us",
             style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: const Color.fromARGB(255, 89, 89, 89),
               fontSize: 16,
               fontFamily: GoogleFonts.raleway().fontFamily,
               fontWeight: FontWeight.w600,
@@ -311,7 +313,7 @@ class Home extends StatelessWidget {
           child: Text(
             "Contact",
             style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: const Color.fromARGB(255, 89, 89, 89),
               fontSize: 16,
               fontFamily: GoogleFonts.raleway().fontFamily,
               fontWeight: FontWeight.w600,
@@ -324,10 +326,59 @@ class Home extends StatelessWidget {
 
   Widget _buildDownloadBanner(){
     return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Stack(
-        children: [],
-      ),
+      children: [
+        const Text(
+          "DOWNLOAD",
+          style: TextStyle(
+            fontSize: 60,
+            fontFamily: "Etna",
+            fontWeight: FontWeight.bold,
+          )
+        ),
+        Positioned(
+          top: 1000, 
+          left: 50, 
+          right: 50,
+          child: Image.network('https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/aaron-huber-s95oB2n9jng-unsplash.jpg', 
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned(
+          bottom: 50, 
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: const Row(
+                  children: [
+                    Icon(Icons.android),
+                    Text('Android'),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Row(
+                  children: [
+                    Icon(Icons.apple),
+                    Text('App Store'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
     );
+    
   }
 
   Widget _buildBelowCardContainer() {
