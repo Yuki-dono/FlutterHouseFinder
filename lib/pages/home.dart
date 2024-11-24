@@ -43,7 +43,7 @@ class Home extends StatelessWidget {
                   const SizedBox(width: 40),
                   Expanded(
                     flex: 1, // Hero text takes 1/2 of the space
-                    child: _buildHeroSection(),
+                    child: _buildHeroSection(context),
                   ),
                   Expanded(
                     flex: 1,
@@ -71,7 +71,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroSection() {
+  Widget _buildHeroSection(BuildContext context) {
     final List<String> districts = [
       "Agdao", "Baguio", "Buhangin", "Bunawan", "Calinan", "Marilog",
       "Paquibato", "Poblacion", "Talomo", "Toril", "Tugbok", "Toril"
@@ -87,6 +87,7 @@ class Home extends StatelessWidget {
             fontFamily: GoogleFonts.raleway().fontFamily,
           ),
         ),
+        const SizedBox(height: 5),
         Text(
           'near your university',
           style: TextStyle(
@@ -97,6 +98,8 @@ class Home extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         _buildCardSection(districts, sampleLoc),
+        const SizedBox(height: 250),
+        _buildMiniFooter(context),
       ],
     );
   }
@@ -228,6 +231,102 @@ class Home extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildMiniFooter(BuildContext context){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        TextButton(
+          onPressed: () {
+            GoRouter.of(context).go('/register');
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 34, 124, 29),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12.0),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 20.0,
+              horizontal: 20.0,
+            ),
+          ),
+          child: Text(
+            "?",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontFamily: GoogleFonts.raleway().fontFamily,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(width: 30),
+        TextButton(
+          onPressed: () {
+            GoRouter.of(context).go('/register');
+          },
+          style: TextButton.styleFrom(
+            foregroundColor: const Color.fromARGB(255, 165, 165, 165),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12.0),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 20.0,
+              horizontal: 20.0,
+            ),
+          ),
+          child: Text(
+            "About Us",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 16,
+              fontFamily: GoogleFonts.raleway().fontFamily,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(width: 20),
+        TextButton(
+          onPressed: () {
+            GoRouter.of(context).go('/register');
+          },
+          style: TextButton.styleFrom(
+            foregroundColor: const Color.fromARGB(255, 165, 165, 165),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12.0),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 20.0,
+              horizontal: 20.0,
+            ),
+          ),
+          child: Text(
+            "Contact",
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 16,
+              fontFamily: GoogleFonts.raleway().fontFamily,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildDownloadBanner(){
+    return Container(
+      child: Stack(
+        children: [],
+      ),
     );
   }
 
