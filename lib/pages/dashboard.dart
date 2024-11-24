@@ -111,12 +111,14 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildContainer(BuildContext context) {
     final fetchProperties = ref.watch(fetchPropertyList);
+
     return fetchProperties.when(
       data: (properties) {
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 120),
           child: Card(
+            color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
             ),
@@ -133,8 +135,8 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                   alignment: WrapAlignment.start,
                   children: properties.map((property) {
                     return SizedBox(
-                      width: 150, // Square width
-                      height: 150, // Square height
+                      width: 300, // Square width
+                      height: 300, // Square height
                       child: ProductCard(
                         propertyList: properties,
                         index: properties.indexOf(property),
