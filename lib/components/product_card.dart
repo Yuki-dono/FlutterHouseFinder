@@ -192,7 +192,8 @@ class ProductCard extends StatelessWidget {
     return InkWell(
       onTap: () => _showDetailsDialog(context),
       child: Card(
-        elevation: 5,
+        elevation: 0,
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8), // Rounded corners
         ),
@@ -208,7 +209,8 @@ class ProductCard extends StatelessWidget {
                   child: Image.network(
                     propertyList[index].propURL[0],
                     fit: BoxFit.cover,
-                    width: double.infinity,
+                    width: 300,
+                    height: 300,
                     errorBuilder: (context, error, stackTrace) {
                       return const Icon(
                         Icons.error,
@@ -255,7 +257,7 @@ class ProductCard extends StatelessWidget {
                     child: Row(
                       children:[
                         const FaIcon(
-                          FontAwesomeIcons.star,
+                          FontAwesomeIcons.solidStar,
                           color: Colors.green,
                           size: 18,
                         ),
@@ -275,7 +277,7 @@ class ProductCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 8,
+                vertical: 12,
                 horizontal: 12
               ),
               child: Text(
@@ -283,29 +285,27 @@ class ProductCard extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: GoogleFonts.raleway().fontFamily,
-                  fontSize: 18,
+                  fontSize: 20,
                   color: Colors.green,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 8,
                 horizontal: 12
               ),
               child: Text(
                 propertyList[index].propLocation,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
                   fontFamily: GoogleFonts.raleway().fontFamily,
-                  fontSize: 18,
+                  fontSize: 12,
                   color: Colors.green,
                 ),
               ),
-            )
+            ),
           ],
         ),
-      )
+      ),
     );
   }
 }
