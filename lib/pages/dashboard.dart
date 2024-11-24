@@ -185,7 +185,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget _buildBelowCardContainer() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
       color: Colors.white,
       child: Container(
         padding: const EdgeInsets.all(25),

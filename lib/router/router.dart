@@ -22,13 +22,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isOnAuthPage = state.uri.path == '/login';
 
       // // If not authenticated and not on auth page, redirect to login
-      // if (!isAuthenticated && (state.uri.path != '/login')) {
-      //   return '/login';
-      // }else if(isAuthenticated && ((state.uri.path == '/login') || (state.uri.path == '/home'))){
-      //   return '/dashboard';
-      // }else{
-      //   return null;
-      // }
+      if (!isAuthenticated && (state.uri.path != '/login')) {
+         return '/login';
+       }else if(isAuthenticated && ((state.uri.path == '/login') || (state.uri.path == '/home'))){
+         return '/dashboard';
+      }else{
+         return null;
+     }
 
     },
     routes: [
