@@ -25,8 +25,7 @@ class ProductCard extends StatelessWidget {
             width: 300,
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize
-                  .min, // Ensures the dialog size adapts to its content
+              mainAxisSize: MainAxisSize.min, // Ensures the dialog size adapts to its content
               children: [
                 // Horizontally scrollable images (one at a time)
                 Container(

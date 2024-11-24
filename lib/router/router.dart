@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
 
 import 'package:safe_stay/main.dart';
+import 'package:safe_stay/pages/home.dart';
 import 'package:safe_stay/pages/login.dart';
 import 'package:safe_stay/pages/register.dart';
 import 'package:safe_stay/pages/dashboard.dart';
@@ -20,20 +21,20 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       final isOnAuthPage = state.uri.path == '/login';
 
-      // If not authenticated and not on auth page, redirect to login
-      if (!isAuthenticated && (state.uri.path != '/login')) {
-        return '/login';
-      }else if(isAuthenticated && ((state.uri.path == '/login') || (state.uri.path == '/home'))){
-        return '/dashboard';
-      }else{
-        return null;
-      }
+      // // If not authenticated and not on auth page, redirect to login
+      // if (!isAuthenticated && (state.uri.path != '/login')) {
+      //   return '/login';
+      // }else if(isAuthenticated && ((state.uri.path == '/login') || (state.uri.path == '/home'))){
+      //   return '/dashboard';
+      // }else{
+      //   return null;
+      // }
 
     },
     routes: [
       GoRoute(
         path: '/home',
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) => const Home(),
       ),
       GoRoute(
         path: '/login',

@@ -190,7 +190,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       child: Container(
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
-          color: const Color.fromARGB(255, 34, 124, 29),
+          color:  Color.fromARGB(255, 34, 124, 29),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20)
