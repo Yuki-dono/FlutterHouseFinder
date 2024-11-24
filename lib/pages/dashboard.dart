@@ -191,10 +191,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
           color:  Color.fromARGB(255, 34, 124, 29),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20)
-          )
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: [

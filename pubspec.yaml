@@ -19,6 +19,7 @@ dependencies:
   supabase_flutter: ^2.8.0
   google_sign_in: ^6.2.2
   go_router: ^14.6.0
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
