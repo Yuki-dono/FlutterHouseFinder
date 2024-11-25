@@ -5,15 +5,7 @@ import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
 import 'package:safe_stay/components/product_card.dart';
-
-//Notes for Shaheen
-// 1. Rating System
-// 2. Description
-// 3. Add/Update
-// 4. Soft-delete (Property is sold, NO DELETING!)
-// 5. Upload Images to bucket -> Links directly to PropID and is an array
-// 6. Profile System
-// 7. Fix Routing
+import 'package:safe_stay/components/add_property_dialog.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -32,7 +24,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // Header with app name and logout
+            // Header with app name and profile dropdown
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -53,15 +45,19 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () async {
-                          await ref.read(authProvider.notifier).signOut();
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const AddPropertyDialog(),
+                          );
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: const Color.fromARGB(255, 190, 190, 190),
+                          foregroundColor:
+                              const Color.fromARGB(255, 190, 190, 190),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
-                            )
+                            ),
                           ),
                           textStyle: TextStyle(
                             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -73,29 +69,75 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                         child: const Text('ADD A PROPERTY'),
                       ),
                       const SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () async {
-                          await ref.read(authProvider.notifier).signOut();
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(34, 124, 29, 1),
-                          foregroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                            )
+                      PopupMenuButton<String>(
+                        offset: const Offset(0, 60),
+                        color: const Color.fromRGBO(34, 124, 29, 1),
+                        child: TextButton(
+                          onPressed: null,
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromRGBO(34, 124, 29, 1),
+                            foregroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                              ),
+                            ),
+                            minimumSize: const Size(125, 60),
                           ),
-                          textStyle: TextStyle(
-                            fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
+                          child: Text(
+                            'Profile Name',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'etna',
+                              fontSize: 16,
+                            ),
                           ),
-                          minimumSize: const Size(125, 60),
                         ),
-                        child: const Text('LOGOUT'),
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<String>>[
+                          PopupMenuItem<String>(
+                            value: 'profile',
+                            child: Text(
+                              'My Profile',
+                              style: TextStyle(
+                                  fontFamily: 'etna', color: Colors.white),
+                            ),
+                            onTap: () {},
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'listings',
+                            child: Text(
+                              'My Listings',
+                              style: TextStyle(
+                                  fontFamily: 'etna', color: Colors.white),
+                            ),
+                            onTap: () {},
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'account',
+                            child: Text(
+                              'My Account',
+                              style: TextStyle(
+                                  fontFamily: 'etna', color: Colors.white),
+                            ),
+                            onTap: () {},
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'logout',
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(
+                                  fontFamily: 'etna', color: Colors.white),
+                            ),
+                            onTap: () async {
+                              await ref.read(authProvider.notifier).signOut();
+                            },
+                          ),
+                        ],
                       ),
                     ],
-                  )
+                  ),
                 ),
               ],
             ),
@@ -192,23 +234,23 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       child: Container(
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
-          color:  Color.fromARGB(255, 34, 124, 29),
+          color: Color.fromARGB(255, 34, 124, 29),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: [
             const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'This website is made by\nTADAYUKI HARUYAMA\nSHAHEEN AL ADWANI',
-                  style: TextStyle(color: Colors.white), 
+                  style: TextStyle(color: Colors.white),
                 ),
                 Row(
                   children: [
-                    Icon(Icons.facebook, color: Colors.white), 
+                    Icon(Icons.facebook, color: Colors.white),
                     SizedBox(width: 10), // Spacing between icons
-                    Icon(Icons.g_translate, color: Colors.white), 
+                    Icon(Icons.g_translate, color: Colors.white),
                   ],
                 ),
               ],
@@ -222,16 +264,17 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                     SizedBox(
                       width: 50,
                       height: 50,
-                      child: Image.network('https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/logo.png'),
+                      child: Image.network(
+                          'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/logo.png'),
                     ),
                     const SizedBox(width: 5),
                     const Text(
                       'Safe Stay',
                       style: TextStyle(
-                      fontFamily: 'Etna',
-                      fontSize: 23,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
+                        fontFamily: 'Etna',
+                        fontSize: 23,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
                   ],
                 ),
