@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
@@ -110,9 +111,15 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             child: Text(
                               'My Listings',
                               style: TextStyle(
-                                  fontFamily: 'etna', color: Colors.white),
+                                fontFamily: 'etna',
+                                color: Colors.white,
+                              ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                context.go('/my-listings');
+                              });
+                            },
                           ),
                           PopupMenuItem<String>(
                             value: 'account',

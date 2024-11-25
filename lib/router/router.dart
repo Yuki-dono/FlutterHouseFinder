@@ -9,6 +9,7 @@ import 'package:safe_stay/pages/home.dart';
 import 'package:safe_stay/pages/login.dart';
 import 'package:safe_stay/pages/register.dart';
 import 'package:safe_stay/pages/dashboard.dart';
+import 'package:safe_stay/pages/my_listings.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -21,7 +22,6 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       final isOnAuthPage = state.uri.path == '/login';
 
-      // // If not authenticated and not on auth page, redirect to login
       if (!isAuthenticated && (state.uri.path != '/login')) {
         return '/login';
       } else if (isAuthenticated &&
@@ -48,7 +48,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/dashboard',
         builder: (context, state) => const DashboardScreen(),
       ),
-      // !!! Add the routes here Yuki !!!
+      GoRoute(
+        path: '/my-listings',
+        builder: (context, state) => const MyListingScreen(),
+      ),
     ],
     errorBuilder: (context, state) => const ErrorPage(),
   );
