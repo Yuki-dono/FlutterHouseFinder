@@ -96,13 +96,8 @@ Future<List<String>> uploadImages(List<File> images) async {
 
 
   //Update
-  Future<void> updateProperty(PropertyData property, List<File> newImages) async {
+  Future<void> updateProperty(PropertyData property, int propID) async {
   try {
-    if (newImages.isNotEmpty) {
-      final newImageUrls = await uploadImages(newImages);
-      property.propURL.addAll(newImageUrls); 
-    }
-
     await supabaseDB.from('properties_list').update({ 
         'name': property.propName,
         'location': property.propLocation,
@@ -114,7 +109,7 @@ Future<List<String>> uploadImages(List<File> images) async {
         'duration': property.duration,
         'distance': property.distance,
         })
-        .eq('id', property.propID); 
+        .eq('id', propID); 
     } catch (e) {
       print('Error updating property: $e');
       // Handle error

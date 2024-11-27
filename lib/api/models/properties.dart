@@ -1,15 +1,15 @@
 class PropertyData {
-  final int propID;
-  final String? userID;
-  final String propName;
-  final String propLocation;
-  final double propPrice;
-  final String propTag;
-  final List<String> propURL;
-  final bool hidden;
-  final double? duration;
-  final String? propDesc; // Add this line
-  final double? distance;
+  int propID;
+  String? userID;
+  String propName;
+  String propLocation;
+  double propPrice;
+  String propTag;
+  List<String> propURL;
+  bool hidden;
+  double? duration;
+  String? propDesc; // Add this line
+  double? distance;
 
   PropertyData({
     required this.propID,

@@ -261,7 +261,8 @@ class ProductCard extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => EditPropertyDialog(
-        property: propertyList[index], // Pass the property data to the dialog
+        property: propertyList[index],
+        propertyId: propertyList[index].propID, // Pass the property data to the dialog
       ),
     );
   }

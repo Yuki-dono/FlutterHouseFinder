@@ -131,6 +131,7 @@ class EditListingCard extends StatelessWidget {
                           context: context,
                           builder: (context) => EditPropertyDialog(
                             property: propertyList[index],
+                            propertyId:propertyList[index].propID ,
                           ),
                         );
                       },

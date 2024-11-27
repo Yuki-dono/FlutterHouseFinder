@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:safe_stay/api/models/properties.dart';
+import 'package:safe_stay/api/riverpod/property_state.dart';
 
-class EditPropertyDialog extends StatefulWidget {
+class EditPropertyDialog extends ConsumerStatefulWidget {
   final PropertyData property;
-
-  const EditPropertyDialog({super.key, required this.property});
+  final int propertyId;
+  
+  const EditPropertyDialog({super.key, required this.property, required this.propertyId,});
 
   @override
-  _EditPropertyDialogState createState() => _EditPropertyDialogState();
+  ConsumerState createState() => _EditPropertyDialogState();
 }
 
-class _EditPropertyDialogState extends State<EditPropertyDialog> {
+class _EditPropertyDialogState extends ConsumerState<EditPropertyDialog> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _priceController;
@@ -121,13 +124,21 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
     );
   }
 
-  void _saveChanges() {
-    print('Saving changes...');
-    print('Title: ${_titleController.text}');
-    print('Description: ${_descriptionController.text}');
-    print('Price: ${_priceController.text}');
-    print('Location: ${_locationController.text}');
+  _saveChanges() {
+    // Update the property fields with the values from the text controllers
+    widget.property.propName = _titleController.text;
+    widget.property.propDesc = _descriptionController.text;
+    widget.property.propPrice = double.parse(_priceController.text);
+    widget.property.propLocation = _locationController.text;
+    widget.property.hidden = _isHidden.text.toLowerCase() == ''; // Assuming "true" or "false" input
 
+     print('Updated the item: ${widget.propertyId}');
+    // Call the update method in PropertiesService
+    ref.read(propertyServiceProvider).updateProperty(widget.property, widget.propertyId);
+    ref.invalidate(propertyServiceProvider);
+
+    print('Updated the item');
+    // Close the dialog
     Navigator.of(context).pop();
   }
 }
