@@ -1,17 +1,7 @@
 // auth_state.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:safe_stay/api/services/authentication.dart';
-
-// Auth States
-enum AuthStatus {
-  initial,
-  authenticated,
-  unauthenticated,
-  authenticating,
-  error
-}
 
 class AuthState {
   final AuthStatus status;
@@ -37,6 +27,16 @@ class AuthState {
   }
 }
 
+
+// Auth States
+enum AuthStatus {
+  initial,
+  authenticated,
+  unauthenticated,
+  authenticating,
+  error
+}
+
 // Default Notifier - don't touch
 class AuthNotifier extends StateNotifier<AuthState> {
   final Authentication _auth;
@@ -59,6 +59,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       state = state.copyWith(status: AuthStatus.authenticating);
       final response = await _auth.signInWithEmail(email, password);
+      
       if (response.user != null) {
         state = AuthState(
           status: AuthStatus.authenticated,

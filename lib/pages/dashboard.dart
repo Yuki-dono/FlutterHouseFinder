@@ -86,7 +86,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             ),
                             minimumSize: const Size(125, 60),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Profile Name',
                             style: TextStyle(
                               color: Colors.white,
@@ -99,7 +99,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             <PopupMenuEntry<String>>[
                           PopupMenuItem<String>(
                             value: 'profile',
-                            child: Text(
+                            child: const Text(
                               'My Profile',
                               style: TextStyle(
                                   fontFamily: 'etna', color: Colors.white),
@@ -108,7 +108,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           PopupMenuItem<String>(
                             value: 'listings',
-                            child: Text(
+                            child: const Text(
                               'My Listings',
                               style: TextStyle(
                                 fontFamily: 'etna',
@@ -123,7 +123,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           PopupMenuItem<String>(
                             value: 'account',
-                            child: Text(
+                            child: const Text(
                               'My Account',
                               style: TextStyle(
                                   fontFamily: 'etna', color: Colors.white),
@@ -132,7 +132,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           PopupMenuItem<String>(
                             value: 'logout',
-                            child: Text(
+                            child: const Text(
                               'Logout',
                               style: TextStyle(
                                   fontFamily: 'etna', color: Colors.white),

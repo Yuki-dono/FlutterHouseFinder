@@ -1,13 +1,24 @@
+// In lib/components/product_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safe_stay/api/models/properties.dart';
+import 'package:safe_stay/components/edit_property_dialog.dart'; // Import the dialog
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:safe_stay/api/riverpod/authentication_state.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends ConsumerWidget {
   final List<PropertyData> propertyList;
   final int index;
+  
+  bool isAdmin(String email){
+    const adminEmail = 'shaern@gmail.com';
+    return email == adminEmail;
+  }
 
-  ProductCard({
+  const ProductCard({
+    super.key,
     required this.propertyList,
     required this.index,
   });
@@ -15,7 +26,6 @@ class ProductCard extends StatelessWidget {
   void _showDetailsDialog(BuildContext context) {
     // Initialize a PageController to control the PageView
     PageController pageController = PageController();
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -26,6 +36,7 @@ class ProductCard extends StatelessWidget {
           child: Container(
             width: 300,
             padding: const EdgeInsets.all(16.0),
+
             child: Column(
               mainAxisSize: MainAxisSize.min, // Ensures the dialog size adapts to its content
               children: [
@@ -61,8 +72,7 @@ class ProductCard extends StatelessWidget {
                       Positioned(
                         left: 0,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_left,
-                              color: Color.fromARGB(255, 34, 124, 29)),
+                          icon: const Icon(Icons.arrow_left, color: Color.fromARGB(255, 34, 124, 29)),
                           onPressed: () {
                             // Navigate left
                             if (pageController.page! > 0) {
@@ -74,16 +84,15 @@ class ProductCard extends StatelessWidget {
                           },
                         ),
                       ),
+
                       // Right Navigation Button
                       Positioned(
                         right: 0,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_right,
-                              color: Color.fromARGB(255, 34, 124, 29)),
+                          icon: const Icon(Icons.arrow_right, color: Color.fromARGB(255, 34, 124, 29)),
                           onPressed: () {
                             // Navigate right
-                            if (pageController.page! <
-                                propertyList[index].propURL.length - 1) {
+                            if (pageController.page! < propertyList[index].propURL.length - 1) {
                               pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
@@ -127,68 +136,11 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return InkWell(
-  //     onTap: () => _showDetailsDialog(context),
-  //     child: Card(
-  //       elevation: 5,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(9), // Rounded corners
-  //       ),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.stretch,
-  //         children: [
-  //           // Image inside the card
-  //           ClipRRect(
-  //             borderRadius:
-  //                 const BorderRadius.vertical(
-  //                   top: Radius.circular(9)
-  //                 ),
-  //             child: SizedBox(
-  //               height: 106,
-  //               child: Image.network(
-  //                 propertyList[index].propURL[0],
-  //                 fit: BoxFit.cover,
-  //                 width: double.infinity,
-  //                 errorBuilder: (context, error, stackTrace) {
-  //                   return const Icon(
-  //                     Icons.error,
-  //                     color: Colors.red,
-  //                     size: 50,
-  //                   );
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //           // Footer with property name
-  //           ClipRRect(
-  //             borderRadius:
-  //                 const BorderRadius.vertical(bottom: Radius.circular(9)),
-  //             child: Container(
-  //               padding: const EdgeInsets.all(8),
-  //               color: const Color.fromARGB(255, 34, 124, 29),
-  //               child: Text(
-  //                 propertyList[index].propName,
-  //                 maxLines: 1,
-  //                 overflow: TextOverflow.ellipsis,
-  //                 style: const TextStyle(
-  //                   color: Colors.white,
-  //                   fontSize: 14,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //                 textAlign: TextAlign.center,
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-  
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+    final isCurrentUserAdmin = isAdmin(authState.user?.email ?? ''); // Check admin status
+
     return InkWell(
       onTap: () => _showDetailsDialog(context),
       child: Card(
@@ -199,12 +151,12 @@ class ProductCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children:[
+          children: [
             Stack(
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(15)
+                    top: Radius.circular(15),
                   ),
                   child: Image.network(
                     propertyList[index].propURL[0],
@@ -216,18 +168,15 @@ class ProductCard extends StatelessWidget {
                         Icons.error,
                         color: Colors.red,
                         size: 50,
-                        );
-                      },
-                    ),
+                      );
+                    },
                   ),
+                ),
                 Positioned(
                   bottom: 10,
                   left: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 15
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(8),
@@ -240,22 +189,19 @@ class ProductCard extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
-                  )
+                  ),
                 ),
                 Positioned(
                   bottom: 10,
                   right: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 10,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8)
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
-                      children:[
+                      children: [
                         const FaIcon(
                           FontAwesomeIcons.solidStar,
                           color: Colors.green,
@@ -266,20 +212,17 @@ class ProductCard extends StatelessWidget {
                           4.toString(),
                           style: TextStyle(
                             fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.bold
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 12
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               child: Text(
                 propertyList[index].propName,
                 style: TextStyle(
@@ -291,9 +234,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 propertyList[index].propLocation,
                 style: TextStyle(
@@ -303,8 +244,24 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
+            if (isCurrentUserAdmin) // Conditionally render the Edit button
+              ElevatedButton(
+                onPressed: () {
+                  _showEditDialog(context, ref);
+                },
+                child: const Text('Edit'),
+              ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => EditPropertyDialog(
+        property: propertyList[index], // Pass the property data to the dialog
       ),
     );
   }

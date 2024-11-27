@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:safe_stay/api/models/properties.dart';
 
 class EditPropertyDialog extends StatefulWidget {
-  final Map<String, dynamic> property;
+  final PropertyData property;
 
   const EditPropertyDialog({super.key, required this.property});
 
@@ -15,15 +16,17 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
   late TextEditingController _descriptionController;
   late TextEditingController _priceController;
   late TextEditingController _locationController;
+  late TextEditingController _isHidden;
 
   @override
   void initState() {
     super.initState();
     // Initialize controllers with existing property data
-    _titleController = TextEditingController(text: widget.property['title'] ?? '');
-    _descriptionController = TextEditingController(text: widget.property['description'] ?? '');
-    _priceController = TextEditingController(text: widget.property['price']?.toString() ?? '');
-    _locationController = TextEditingController(text: widget.property['location'] ?? '');
+    _titleController = TextEditingController(text: widget.property.propName);
+    _descriptionController = TextEditingController(text: widget.property.propDesc ?? '');
+    _priceController = TextEditingController(text: widget.property.propPrice.toString());
+    _locationController = TextEditingController(text: widget.property.propLocation);
+    _isHidden = TextEditingController(text: widget.property.hidden.toString());
   }
 
   @override
@@ -33,6 +36,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
     _descriptionController.dispose();
     _priceController.dispose();
     _locationController.dispose();
+    _isHidden.dispose();
     super.dispose();
   }
 
@@ -73,6 +77,8 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
             _buildTextField('Price', _priceController, keyboardType: TextInputType.number),
             const SizedBox(height: 10),
             _buildTextField('Location', _locationController),
+            const SizedBox(height: 10),
+            _buildTextField('Availability', _isHidden),
           ],
         ),
       ),
@@ -116,15 +122,12 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
   }
 
   void _saveChanges() {
-    // TODO: Implement actual save logic
-    // This might involve calling a Riverpod method to update the property
     print('Saving changes...');
     print('Title: ${_titleController.text}');
     print('Description: ${_descriptionController.text}');
     print('Price: ${_priceController.text}');
     print('Location: ${_locationController.text}');
 
-    // Close the dialog
     Navigator.of(context).pop();
   }
 }

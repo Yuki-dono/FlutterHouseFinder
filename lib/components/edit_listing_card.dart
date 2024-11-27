@@ -130,12 +130,7 @@ class EditListingCard extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) => EditPropertyDialog(
-                            property: {
-                              'title': property.propName,
-                              'description': property.propDesc,
-                              'price': property.propPrice,
-                              'location': property.propLocation,
-                            },
+                            property: propertyList[index],
                           ),
                         );
                       },
