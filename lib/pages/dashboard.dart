@@ -186,7 +186,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                   children: properties.map((property) {
                     return SizedBox(
                       width: 300, // Square width
-                      height: 400, // Square height
+                      height: 450, // Square height
                       child: ProductCard(
                         propertyList: properties,
                         index: properties.indexOf(property),
