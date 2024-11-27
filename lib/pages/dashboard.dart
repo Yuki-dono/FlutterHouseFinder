@@ -19,6 +19,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    String getName = authState.user?.id as String;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -86,9 +87,9 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             ),
                             minimumSize: const Size(125, 60),
                           ),
-                          child: const Text(
-                            'Profile Name',
-                            style: TextStyle(
+                          child: Text(
+                            getName,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontFamily: 'etna',
                               fontSize: 16,
