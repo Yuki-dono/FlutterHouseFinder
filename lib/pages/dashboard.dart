@@ -93,7 +93,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           onPressed: null,
                           style: TextButton.styleFrom(
                             backgroundColor:
-                                const Color.fromRGBO(34, 124, 29, 1),
+                                const Color.fromARGB(255, 34, 124, 29),
                             foregroundColor: Colors.white,
                             textStyle: const TextStyle(
                               fontFamily: 'Etna'
@@ -224,7 +224,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       },
       error: (err, stackTrace) => Text('Error fetching data from table: $err'),
       loading: () => const LinearProgressIndicator(
-        backgroundColor: Color.fromRGBO(48, 203, 34, 1),
+        backgroundColor: Color.fromARGB(255, 34, 124, 29),
       ),
     );
   }
@@ -234,7 +234,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(2, 9, 1, 1),
+        color: Color.fromARGB(255, 34, 124, 29),
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),

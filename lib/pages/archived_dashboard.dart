@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
+import 'package:safe_stay/components/archive_product_card.dart';
 import 'package:safe_stay/components/product_card.dart';
 import 'package:safe_stay/components/add_property_dialog.dart';
 
@@ -207,7 +208,7 @@ class ArchivedDashboardState extends ConsumerState<ArchivedDashboard>{
                     return SizedBox(
                       width: 300, // Square width
                       height: 450, // Square height
-                      child: ProductCard(
+                      child: ArchiveProductCard(
                         propertyList: properties,
                         index: properties.indexOf(property),
                       ),
@@ -232,7 +233,7 @@ class ArchivedDashboardState extends ConsumerState<ArchivedDashboard>{
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(2, 9, 1, 1),
+        color: Color.fromARGB(255, 34, 124, 29),
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),

@@ -10,7 +10,7 @@ import 'package:safe_stay/components/edit_property_dialog.dart'; // Import the d
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
 
-class ProductCard extends ConsumerWidget {
+class ArchiveProductCard extends ConsumerWidget {
   final List<PropertyData> propertyList;
   final int index;
   
@@ -19,7 +19,7 @@ class ProductCard extends ConsumerWidget {
     return email == adminEmail;
   }
 
-  const ProductCard({
+  const ArchiveProductCard({
     super.key,
     required this.propertyList,
     required this.index,
@@ -161,7 +161,7 @@ class ProductCard extends ConsumerWidget {
                     top: Radius.circular(15),
                   ),
                   child: Image.network(
-                    propertyList[index].propURL[0], 
+                    propertyList[index].propURL[0],
                     fit: BoxFit.cover,
                     width: 300,
                     height: 300,
@@ -250,31 +250,13 @@ class ProductCard extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (isCurrentUserAdmin)
-                        ElevatedButton(
-                          onPressed: () {
-                            _showEditDialog(context, ref);
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
-                            textStyle: TextStyle(
-                              fontFamily: GoogleFonts.raleway().fontFamily,
-                            ),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            minimumSize: const Size(125, 45),
-                          ),
-                          child: const Text('Edit'),
-                        ),
                         const SizedBox(width: 15),
                       if (isCurrentUserAdmin)
                         ElevatedButton(
                           onPressed: () async {
                             try{
                               final PropertiesService updateVisibility = PropertiesService();
-                              await updateVisibility.updateVisibility(true, propertyList[index].propID);
+                              await updateVisibility.updateVisibility(false, propertyList[index].propID);
                               print('Updated visibility of ${propertyList[index].propID}');
                               ref.invalidate(fetchAvailable);
                               ref.invalidate(fetchArchived);
@@ -285,7 +267,7 @@ class ProductCard extends ConsumerWidget {
                             }
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.green,
                             foregroundColor: Colors.white,
                             textStyle: TextStyle(
                               fontFamily: GoogleFonts.raleway().fontFamily,
@@ -295,7 +277,7 @@ class ProductCard extends ConsumerWidget {
                               ),
                             minimumSize: const Size(125, 45),
                           ),
-                          child: const Text('Hide'),
+                          child: const Text('Unhide'),
                       )
                     ],
                   )

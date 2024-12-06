@@ -88,14 +88,28 @@ class _EditPropertyDialogState extends ConsumerState<EditPropertyDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+          child: Text(
+            'Cancel', 
+            style: TextStyle(
+              color: const Color.fromARGB(255, 190, 190, 190),
+              fontFamily: GoogleFonts.raleway().fontFamily,
+              fontSize: 16,
+            )
+          ),
         ),
         ElevatedButton(
           onPressed: _saveChanges,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(34, 124, 29, 1),
           ),
-          child: const Text('Save Changes'),
+          child: Text(
+            'Save Changes',
+            style:TextStyle(
+              color: Colors.white,
+              fontFamily: GoogleFonts.raleway().fontFamily,
+              fontSize: 16,
+            )
+          ),
         ),
       ],
     );
