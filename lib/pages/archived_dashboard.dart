@@ -116,22 +116,6 @@ class ArchivedDashboardState extends ConsumerState<ArchivedDashboard>{
                         ),
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'listings',
-                            child: Text(
-                              'My Listings',
-                              style: TextStyle(
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                            onTap: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                context.go('/my-listings');
-                              });
-                            },
-                          ),
                           if(isCurrentUser)
                           PopupMenuItem<String>(
                             value: 'properties',
@@ -242,7 +226,7 @@ class ArchivedDashboardState extends ConsumerState<ArchivedDashboard>{
         children: [
           const SizedBox(width: 30),
           Text(
-            "Find your property here",
+            "Archived Listing",
             style: TextStyle(
               fontFamily: GoogleFonts.raleway().fontFamily,
               color: Colors.white,

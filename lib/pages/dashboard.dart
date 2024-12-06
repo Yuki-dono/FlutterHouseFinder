@@ -117,22 +117,6 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                         ),
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'listings',
-                            child: Text(
-                              'My Listings',
-                              style: TextStyle(
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                            onTap: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                context.go('/my-listings');
-                              });
-                            },
-                          ),
                           if(isCurrentUser)
                           PopupMenuItem<String>(
                             value: 'archived',
