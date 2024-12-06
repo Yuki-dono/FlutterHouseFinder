@@ -83,7 +83,7 @@ class _LoginState extends ConsumerState<Login> {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(170.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -92,7 +92,7 @@ class _LoginState extends ConsumerState<Login> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(left: 40),
+                          padding: EdgeInsets.only(left: 10),
                           child: Center(
                             child: Text(
                               "Safe Stay",
@@ -105,9 +105,23 @@ class _LoginState extends ConsumerState<Login> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 40),
+                          padding: const EdgeInsets.only(right: 10),
                           child: Center(
                             child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(34, 124, 29, 1),
+                                foregroundColor: Colors.white,
+                                textStyle: TextStyle(
+                                  fontFamily: GoogleFonts.raleway().fontFamily,
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                  ),
+                                ),
+                                minimumSize: const Size(125, 60),
+                              ),
                               onPressed: () {
                                 GoRouter.of(context).go('/home');
                               },
@@ -130,7 +144,7 @@ class _LoginState extends ConsumerState<Login> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(16),
                             decoration: const BoxDecoration(
-                              color: Colors.green,
+                              color: Color.fromARGB(255, 34, 124, 29),
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(16),
                               ),

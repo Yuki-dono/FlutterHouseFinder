@@ -70,6 +70,38 @@ Future<List<String>> uploadImages(List<File> images) async {
     }
   }
 
+  //Fetch Available Properties
+  Future<List<PropertyData>> fetchAvailableProperties() async{
+    try{
+      final properties = await supabaseDB.from('properties_list').select().eq('hidden', false);
+      if(properties.isEmpty == true){
+        print('Dataset is empty');
+        return [];
+      }else{
+        return properties.map<PropertyData>((item) => PropertyData.fromJSON(item)).toList();
+      }
+    }catch(err){
+      print('Failed to retrieve available properties. $err');
+      return [];
+    }
+  }
+
+  //Fetch Hidden/Archived Properties
+  Future<List<PropertyData>> fetchHiddenProperties() async{
+    try{
+      final properties = await supabaseDB.from('properties_list').select().eq('hidden', true);
+      if(properties.isEmpty == true){
+        print('Dataset is empty');
+        return [];
+      }else{
+        return properties.map<PropertyData>((item) => PropertyData.fromJSON(item)).toList();
+      }
+    }catch(err){
+      print('Failed to retrieve hidden properties. $err');
+      return [];
+    }
+  }
+
   //Add
   Future<void> addProperty(PropertyData property) async {
     final userID = supabaseDB.auth.currentUser?.id;
@@ -110,6 +142,16 @@ Future<List<String>> uploadImages(List<File> images) async {
         'distance': property.distance,
         })
         .eq('id', propID); 
+    } catch (e) {
+      print('Error updating property: $e');
+      // Handle error
+    }
+  }
+
+   //Update
+  Future<void> updateVisibility(bool isVisible, int propID) async{
+  try {
+    await supabaseDB.from('properties_list').update({'hidden': isVisible}).eq('id', propID); 
     } catch (e) {
       print('Error updating property: $e');
       // Handle error

@@ -10,6 +10,7 @@ final propertyServiceProvider = Provider<PropertiesService>((ref){
 
 // Reference of the other methods
 
+//Fetching ALL Properties
 final fetchPropertyList = FutureProvider<List<PropertyData>>((ref) async {
   final properties = ref.read(propertyServiceProvider);
 
@@ -17,4 +18,19 @@ final fetchPropertyList = FutureProvider<List<PropertyData>>((ref) async {
   return allProperties;
 });
 
-//Rerefences for the add, delete and update here
+//Fetching Available Properties
+final fetchAvailable = FutureProvider<List<PropertyData>>((ref) async {
+  final properties = ref.read(propertyServiceProvider);
+
+  List<PropertyData> allProperties = await properties.fetchAvailableProperties();
+  return allProperties;
+});
+
+//Fetching Archived Properties
+final fetchArchived = FutureProvider<List<PropertyData>>((ref) async {
+  final properties = ref.read(propertyServiceProvider);
+
+  List<PropertyData> allProperties = await properties.fetchHiddenProperties();
+  return allProperties;
+});
+

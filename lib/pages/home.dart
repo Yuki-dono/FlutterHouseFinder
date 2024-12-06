@@ -134,38 +134,10 @@ class Home extends StatelessWidget {
         ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: TextButton(
-            onPressed: () {
-              GoRouter.of(context).go('/login');
-            },
-            style: TextButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(
-                vertical: 20.0,
-                horizontal: 20.0,
-              ),
-            ),
-            child: Text(
-              "LOGIN",
-              style: TextStyle(
-                color: const Color.fromARGB(255, 240, 240, 240),
-                fontSize: 16,
-                fontFamily: GoogleFonts.raleway().fontFamily,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-        Padding(
           padding: const EdgeInsets.only(right: 16.0),
           child: TextButton(
             onPressed: () {
-              GoRouter.of(context).go('/register');
+              GoRouter.of(context).go('/login');
             },
             style: TextButton.styleFrom(
               backgroundColor: const Color.fromARGB(255, 34, 124, 29),
@@ -180,12 +152,13 @@ class Home extends StatelessWidget {
               ),
             ),
             child: Text(
-              "REGISTER",
+              "LOGIN",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 fontFamily: GoogleFonts.raleway().fontFamily,
                 fontWeight: FontWeight.w600,
+                letterSpacing: 1.12,
               ),
             ),
           ),

@@ -1,11 +1,10 @@
-//add property dialog
-
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/foundation.dart';
-import 'package:safe_stay/api/db_details.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:safe_stay/api/db_details.dart';
 import 'package:safe_stay/api/models/properties.dart';
 import 'package:safe_stay/api/riverpod/property_state.dart';
 
@@ -22,39 +21,29 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController distanceController = TextEditingController();  
-  final TextEditingController durationController = TextEditingController();  
-  final TextEditingController priceController = TextEditingController();  
-
+  final TextEditingController distanceController = TextEditingController();
+  final TextEditingController durationController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
 
   List<Object> _selectedImages = [];
 
   Future<void> _pickImages() async {
-  final pickedFiles = await ImagePicker().pickMultiImage();
+    final pickedFiles = await ImagePicker().pickMultiImage();
 
-  if (pickedFiles.isEmpty == false) {
-    print('Picked Files: $pickedFiles'); // Debug log for picked files
-
-    setState(() {
-      _selectedImages = pickedFiles.map((pickedFile) {
-        if (kIsWeb) {
-          // For web: Convert to Uint8List
-          print('Picked file for web: ${pickedFile.name}');
-          return pickedFile.readAsBytes();
-        } else {
-          // For mobile/desktop: Convert to File
-          print('Picked file for mobile: ${pickedFile.path}');
-          return File(pickedFile.path);
-        }
-      }).toList();
-    });
-
-    print('Selected Images after mapping: $_selectedImages'); // Debug log
-  } else {
-    print('No files picked');
+    if (pickedFiles.isEmpty == false) {
+      setState(() {
+        _selectedImages = pickedFiles.map((pickedFile) {
+          if (kIsWeb) {
+            return pickedFile.readAsBytes();
+          } else {
+            return File(pickedFile.path);
+          }
+        }).toList();
+      });
+    } else {
+      print('No files picked');
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,18 +90,36 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                       controller: titleController,
                       label: 'Property Title',
                       hint: 'Enter property title',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a property title';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
                       controller: locationController,
                       label: 'Location',
                       hint: 'Enter location',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a location';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
                       controller: addressController,
                       label: 'Address',
                       hint: 'Enter address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an address';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
@@ -120,6 +127,12 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                       label: 'Property Description',
                       hint: 'Enter property description',
                       maxLines: 3,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a property description';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
@@ -127,6 +140,16 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                       label: 'Property Distance',
                       hint: 'Enter property distance from Downtown',
                       maxLines: 1,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a property distance';
+                        }
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
@@ -134,6 +157,16 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                       label: 'Duration of Stay',
                       hint: 'Enter max duration of stay',
                       maxLines: 1,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a duration of stay';
+                        }
+                        if (int.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 15),
                     _buildTextField(
@@ -141,6 +174,16 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                       label: 'Price per Stay',
                       hint: 'Enter price per day',
                       maxLines: 1,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a price per stay';
+                        }
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     _buildImagePicker(context),
@@ -152,16 +195,15 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                             padding: const EdgeInsets.only(right: 5),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pop(); // Dismiss dialog
+                                Navigator.of(context).pop();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                  const Color.fromARGB(255, 223, 116, 116),
+                                    const Color.fromARGB(255, 223, 116, 116),
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 18), // Slightly taller
+                                    vertical: 18),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8), // Less round corners
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
                               child: const Text(
@@ -180,73 +222,102 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
                             padding: const EdgeInsets.only(left: 5),
                             child: ElevatedButton(
                               onPressed: () async {
-                                if(_formKey.currentState!.validate()){
-                                  final userId = supabaseDB.auth.currentUser?.id;
+                                if (_formKey.currentState!.validate() &&
+                                    _selectedImages.isNotEmpty) {
+                                  final userId =
+                                      supabaseDB.auth.currentUser?.id;
 
-                                  if(kIsWeb){
-                                    print('Uplading images');
-                                    final List<Uint8List> bytesToUpload = await Future.wait(_selectedImages.whereType<Future<Uint8List>>(),);
+                                  if (kIsWeb) {
+                                    final List<Uint8List> bytesToUpload =
+                                        await Future.wait(
+                                      _selectedImages
+                                          .whereType<Future<Uint8List>>(),
+                                    );
 
                                     if (bytesToUpload.isEmpty) {
-                                      print('No valid files selected for upload on web');
+                                      print(
+                                          'No valid files selected for upload on web');
                                       return;
                                     }
 
-                                    final List<String> imageUrls = await ref.read(propertyServiceProvider).uploadImagesForWeb(bytesToUpload);
+                                    final List<String> imageUrls = await ref
+                                        .read(propertyServiceProvider)
+                                        .uploadImagesForWeb(bytesToUpload);
 
                                     final newProperty = PropertyData(
                                       propID: 0,
                                       userID: userId,
                                       propName: titleController.text,
                                       propLocation: locationController.text,
-                                      propPrice: double.parse(priceController.text), // Assuming addressController holds price
-                                      propTag: 'tagName', 
-                                      propURL: imageUrls, // This will be populated by the addProperty method
+                                      propPrice:
+                                          double.parse(priceController.text),
+                                      propTag: 'tagName',
+                                      propURL: imageUrls,
                                       propDesc: descriptionController.text,
                                       hidden: true,
-                                      distance:double.parse(distanceController.text),
-                                      duration: double.parse(durationController.text),
+                                      distance: double.parse(
+                                          distanceController.text),
+                                      duration: double.parse(
+                                          durationController.text),
                                     );
-                                    await ref.read(propertyServiceProvider).addProperty(newProperty); 
-
-                                    print('Uploaded Image URLs (Web): $imageUrls');
-                                  }else{
-                                    final List<File> filesToUpload = _selectedImages.whereType<File>().toList();
+                                    await ref
+                                        .read(propertyServiceProvider)
+                                        .addProperty(newProperty);
+                                    ref.invalidate(propertyServiceProvider);
+                                  } else {
+                                    final List<File> filesToUpload =
+                                        _selectedImages
+                                            .whereType<File>()
+                                            .toList();
 
                                     if (filesToUpload.isEmpty) {
-                                      print('No valid files selected for upload');
+                                      print(
+                                          'No valid files selected for upload');
                                       return;
                                     }
-                      
-                                    final List<String> imageUrls = await ref.read(propertyServiceProvider).uploadImages(filesToUpload);
+
+                                    final List<String> imageUrls = await ref
+                                        .read(propertyServiceProvider)
+                                        .uploadImages(filesToUpload);
 
                                     final newProperty = PropertyData(
                                       propID: 0,
                                       userID: userId,
                                       propName: titleController.text,
                                       propLocation: locationController.text,
-                                      propPrice: double.parse(priceController.text), // Assuming addressController holds price
-                                      propTag: 'tagName', 
-                                      propURL: imageUrls, // This will be populated by the addProperty method
+                                      propPrice:
+                                          double.parse(priceController.text),
+                                      propTag: 'tagName',
+                                      propURL: imageUrls,
                                       propDesc: descriptionController.text,
                                       hidden: true,
-                                      distance:double.parse(distanceController.text),
-                                      duration: double.parse(durationController.text),
+                                      distance: double.parse(
+                                          distanceController.text),
+                                      duration: double.parse(
+                                          durationController.text),
                                     );
-                                    await ref.read(propertyServiceProvider).addProperty(newProperty); 
+                                    await ref
+                                        .read(propertyServiceProvider)
+                                        .addProperty(newProperty);
+                                    ref.invalidate(propertyServiceProvider);
                                   }
-                                  ref.invalidate(propertyServiceProvider);
-                                  Navigator.of(context).pop(); // Close the dialog
+                                  Navigator.of(context).pop();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Please fill in all fields and select at least one image'),
+                                    ),
+                                  );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromRGBO(129, 223, 116, 1),
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 18), // Slightly taller
+                                    vertical: 18),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8), // Less round corners
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
                               child: const Text(
@@ -277,10 +348,13 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
     required String label,
     required String hint,
     int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text, // Added keyboardType
+    required FormFieldValidator<String> validator,
   }) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+      keyboardType: keyboardType, // Use the passed keyboardType
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -288,88 +362,81 @@ class _AddPropertyDialogState extends ConsumerState<AddPropertyDialog> {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter $label';
-        }
-        return null;
-      },
+      validator: validator,
     );
   }
 
   Widget _buildImagePicker(BuildContext context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'Upload Images',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Upload Images',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      const SizedBox(height: 10),
-      Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        children: [
-          ..._selectedImages.map((image) {
-            if (image is Future<Uint8List>) {
-              // For web: Handle bytes
-              return FutureBuilder<Uint8List>(
-                future: image,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.memory(
-                        snapshot.data!,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              );
-            } else if (image is File) {
-              // For mobile/desktop: Handle file
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.file(
-                  image,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            ..._selectedImages.map((image) {
+              if (image is Future<Uint8List>) {
+                return FutureBuilder<Uint8List>(
+                  future: image,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.memory(
+                          snapshot.data!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                );
+              } else if (image is File) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.file(
+                    image,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            }),
+            GestureDetector(
+              onTap: _pickImages,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Colors.grey[200],
                 ),
-              );
-            } else {
-              return const SizedBox(); // Fallback
-            }
-          }),
-          GestureDetector(
-            onTap: _pickImages,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
-                color: Colors.grey[200],
-              ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.grey,
-                size: 30,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.grey,
+                  size: 30,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+          ],
+        ),
+      ],
+    );
+  }
 }

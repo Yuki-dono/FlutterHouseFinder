@@ -223,34 +223,72 @@ class ProductCard extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-              child: Text(
-                propertyList[index].propName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.raleway().fontFamily,
-                  fontSize: 20,
-                  color: Colors.green,
-                ),
-              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    propertyList[index].propName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: GoogleFonts.raleway().fontFamily,
+                      fontSize: 20,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    propertyList[index].propLocation,
+                    style: TextStyle(
+                      fontFamily: GoogleFonts.raleway().fontFamily,
+                      fontSize: 12,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (isCurrentUserAdmin)
+                        ElevatedButton(
+                          onPressed: () {
+                            _showEditDialog(context, ref);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            textStyle: TextStyle(
+                              fontFamily: GoogleFonts.raleway().fontFamily,
+                            ),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
+                            minimumSize: const Size(125, 45),
+                          ),
+                          child: const Text('Edit'),
+                        ),
+                        const SizedBox(width: 15),
+                      if (isCurrentUserAdmin)
+                        ElevatedButton(
+                          onPressed: () {
+                            _showEditDialog(context, ref);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            textStyle: TextStyle(
+                              fontFamily: GoogleFonts.raleway().fontFamily,
+                            ),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
+                            minimumSize: const Size(125, 45),
+                          ),
+                          child: const Text('Hide'),
+                      )
+                    ],
+                  )
+                ],
+              ) 
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                propertyList[index].propLocation,
-                style: TextStyle(
-                  fontFamily: GoogleFonts.raleway().fontFamily,
-                  fontSize: 12,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            if (isCurrentUserAdmin) // Conditionally render the Edit button
-              ElevatedButton(
-                onPressed: () {
-                  _showEditDialog(context, ref);
-                },
-                child: const Text('Edit'),
-              ),
           ],
         ),
       ),

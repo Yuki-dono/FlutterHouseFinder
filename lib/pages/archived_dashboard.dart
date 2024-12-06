@@ -8,16 +8,14 @@ import 'package:safe_stay/api/riverpod/authentication_state.dart';
 import 'package:safe_stay/components/product_card.dart';
 import 'package:safe_stay/components/add_property_dialog.dart';
 
-
-
-class DashboardScreen extends ConsumerStatefulWidget {
-  const DashboardScreen({super.key});
+class ArchivedDashboard extends ConsumerStatefulWidget {
+  const ArchivedDashboard({super.key});
 
   @override
-  ConsumerState createState() => DashboardScreenState();
-}
+  ConsumerState createState() => ArchivedDashboardState();
+} 
 
-class DashboardScreenState extends ConsumerState<DashboardScreen> {
+class ArchivedDashboardState extends ConsumerState<ArchivedDashboard>{
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
@@ -135,9 +133,9 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           if(isCurrentUser)
                           PopupMenuItem<String>(
-                            value: 'archived',
+                            value: 'properties',
                             child:  Text(
-                              'Archived Properties',
+                              'Main Properties',
                               style: TextStyle(
                                   fontFamily: GoogleFonts.raleway().fontFamily, 
                                   color: Colors.white,
@@ -146,7 +144,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                             onTap: () {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
-                                context.go('/archived-list');
+                                context.go('/dashboard');
                               });
                             },
                           ),
@@ -182,7 +180,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Widget _buildContainer(BuildContext context) {
-    final fetchProperties = ref.watch(fetchAvailable);
+    final fetchProperties = ref.watch(fetchArchived);
 
     return fetchProperties.when(
       data: (properties) {
