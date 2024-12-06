@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Services, Models and Calls -- PLZ DONT TOUCH BRU
 import '/api/db_details.dart';
@@ -26,8 +27,6 @@ class Home extends StatelessWidget {
     'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/ronnie-george-9gGvNWBeOq4-unsplash.jpg'
     ];
 
-    int imgCarousel = Random().nextInt(5);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -42,28 +41,40 @@ class Home extends StatelessWidget {
                 children: [
                   const SizedBox(width: 40),
                   Expanded(
-                    flex: 1, // Hero text takes 1/2 of the space
+                    flex: 1, // Hero text takes 1/2 of the space; don't touch
                     child: _buildHeroSection(context),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      height: 600,
-                      width: 1000,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        image: DecorationImage(
-                          image: NetworkImage(imgBase[imgCarousel]),
-                          fit: BoxFit.cover,
-                        ),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 600,
+                        viewportFraction: 1,
+                        enlargeCenterPage: false,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
                       ),
+                      items: imgBase.map((imageURL) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              width: 1000,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(
+                                  image: NetworkImage(imageURL),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(), 
                     ),
                   ),
                   const SizedBox(width: 20),
                 ],
               ),
-              // const SizedBox(height: 100),
-              // _buildDownloadBanner(),
               const SizedBox(height: 100),
               _buildBelowCardContainer(),
             ],
@@ -78,6 +89,7 @@ class Home extends StatelessWidget {
       "Agdao", "Baguio", "Buhangin", "Bunawan", "Calinan", "Marilog",
       "Paquibato", "Poblacion", "Talomo", "Toril", "Tugbok", "Toril"
     ];
+
     int sampleLoc = Random().nextInt(11);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +153,7 @@ class Home extends StatelessWidget {
             child: Text(
               "LOGIN",
               style: TextStyle(
-                color: const Color.fromARGB(255, 149, 149, 149),
+                color: const Color.fromARGB(255, 240, 240, 240),
                 fontSize: 16,
                 fontFamily: GoogleFonts.raleway().fontFamily,
                 fontWeight: FontWeight.w600,
@@ -186,7 +198,8 @@ class Home extends StatelessWidget {
     return Row(
       children: [
         Card(
-          shape: RoundedRectangleBorder(
+          shape: 
+          RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -385,7 +398,7 @@ class Home extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      color: Colors.white,
+      color: const Color.fromARGB(255, 254,247,255),
       child: Container(
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
@@ -394,18 +407,30 @@ class Home extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween, 
               children: [
-                Text(
+                const Text(
                   'This website is made by\nTADAYUKI HARUYAMA\nSHAHEEN AL ADWANI',
                   style: TextStyle(color: Colors.white), 
                 ),
                 Row(
                   children: [
-                    Icon(Icons.facebook, color: Colors.white), 
-                    SizedBox(width: 10), // Spacing between icons
-                    Icon(Icons.g_translate, color: Colors.white), 
+                    IconButton(
+                      icon: const FaIcon(
+                        Icons.facebook,
+                        size: 30,
+                        color: Colors.white),
+                        onPressed: () => launchUrl(Uri.http('http://facebok.com')),
+                    ),
+                    const SizedBox(width:10),
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.twitter,
+                        size: 30,
+                        color: Colors.white),
+                        onPressed: () => launchUrl(Uri.http('http://twitter.com')),
+                    ),
                   ],
                 ),
               ],

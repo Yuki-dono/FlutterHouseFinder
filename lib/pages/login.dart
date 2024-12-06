@@ -1,4 +1,5 @@
 // Routing & Backend
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:safe_stay/main.dart';
 import 'package:safe_stay/router/router.dart';
 import 'package:safe_stay/api/riverpod/authentication_state.dart';
@@ -9,19 +10,30 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+class Login extends ConsumerStatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
-class Login extends ConsumerWidget {
+  @override
+  ConsumerState<Login> createState() => _LoginState();
+}
+
+class _LoginState extends ConsumerState<Login> {
+  final List<String> imgList = [
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/aaron-huber-s95oB2n9jng-unsplash.jpg',
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/bailey-anselme-Bkp3gLygyeA-unsplash.jpg',
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/brian-babb-XbwHrt87mQ0-unsplash%20(1).jpg',
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/dillon-kydd-2keCPb73aQY-unsplash%20(1).jpg',
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/francesca-tosolini-tHkJAMcO3QE-unsplash.jpg',
+    'https://qpetohtluhvwrrpletja.supabase.co/storage/v1/object/public/assets/ronnie-george-9gGvNWBeOq4-unsplash.jpg'
+  ];
+
   final userEmail = TextEditingController();
   final userPass = TextEditingController();
 
-  Login({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch auth state
+  Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
 
-    // Show loading indicator when authenticating
     if (authState.status == AuthStatus.authenticating) {
       return const Scaffold(
         body: Center(
@@ -30,7 +42,6 @@ class Login extends ConsumerWidget {
       );
     }
 
-    // Show error message if there's an error
     if (authState.status == AuthStatus.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -42,48 +53,70 @@ class Login extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 40),
-                  child: Center(
-                    child: Text(
-                      "Safe Stay",
-                      style: TextStyle(
-                        fontFamily: 'Etna',
-                        fontSize: 30,
-                        color: Color.fromARGB(255, 34, 124, 29),
+      body: Row(
+        children: [
+          Expanded(
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: double.infinity,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 3),
+              ),
+              items: imgList.map((imageURL) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(imageURL),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 40),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () {
-                        GoRouter.of(context).go('/home');
-                      },
-                      child: const Text("BACK TO HOME"),
-                    ),
-                  ),
-                ),
-              ],
+                    );
+                  },
+                );
+              }).toList(),
             ),
-            const SizedBox(height: 40),
-            Center(
-              child: Container(
-                width: 500, // Set a max width for the container
-                color: Colors.white,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 40),
+                          child: Center(
+                            child: Text(
+                              "Safe Stay",
+                              style: TextStyle(
+                                fontFamily: 'Etna',
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 34, 124, 29),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: Center(
+                            child: TextButton(
+                              onPressed: () {
+                                GoRouter.of(context).go('/home');
+                              },
+                              child: const Text("BACK TO HOME"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 40),
                     Card(
                       shape: RoundedRectangleBorder(
@@ -93,7 +126,6 @@ class Login extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Full-width green header with "Login / Sign Up" text
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(16),
@@ -169,21 +201,16 @@ class Login extends ConsumerWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              content: Text(
-                                                  'Please fill in all fields')),
+                                              content: Text('Please fill in all fields')),
                                         );
                                         return;
                                       }
 
                                       try {
-                                        await ref
-                                            .read(authProvider.notifier)
-                                            .signInWithEmail(email, password);
+                                        await ref.read(authProvider.notifier).signInWithEmail(email, password);
                                       } catch (_) {
                                         try {
-                                          await ref
-                                              .read(authProvider.notifier)
-                                              .signUp(email, password);
+                                          await ref.read(authProvider.notifier).signUp(email, password);
                                         } catch (e) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -278,9 +305,7 @@ class Login extends ConsumerWidget {
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                     onPressed: () async {
-                                      ref
-                                          .read(authProvider.notifier)
-                                          .signInAnonymously();
+                                      ref.read(authProvider.notifier).signInAnonymously();
                                     },
                                     icon: const Icon(
                                       Icons.person,
@@ -316,8 +341,8 @@ class Login extends ConsumerWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -19,7 +19,14 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    String getName = authState.user?.id as String;
+    late String? getName;
+
+    
+    if(authState.user!.isAnonymous){
+      getName = "Anonymous User";
+    }else{
+      getName = authState.user!.email;
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -80,6 +87,9 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             backgroundColor:
                                 const Color.fromRGBO(34, 124, 29, 1),
                             foregroundColor: Colors.white,
+                            textStyle: const TextStyle(
+                              fontFamily: 'Etna'
+                            ),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
@@ -88,32 +98,25 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                             minimumSize: const Size(125, 60),
                           ),
                           child: Text(
-                            getName,
-                            style: const TextStyle(
+                            getName!,
+                            style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'etna',
+                              fontFamily: GoogleFonts.raleway().fontFamily,
                               fontSize: 16,
+                              fontWeight: FontWeight.w600
                             ),
                           ),
                         ),
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
                           PopupMenuItem<String>(
-                            value: 'profile',
-                            child: const Text(
-                              'My Profile',
-                              style: TextStyle(
-                                  fontFamily: 'etna', color: Colors.white),
-                            ),
-                            onTap: () {},
-                          ),
-                          PopupMenuItem<String>(
                             value: 'listings',
-                            child: const Text(
+                            child: Text(
                               'My Listings',
                               style: TextStyle(
-                                fontFamily: 'etna',
+                                fontFamily: GoogleFonts.raleway().fontFamily,
                                 color: Colors.white,
+                                fontWeight: FontWeight.w600
                               ),
                             ),
                             onTap: () {
@@ -124,19 +127,25 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           PopupMenuItem<String>(
                             value: 'account',
-                            child: const Text(
+                            child:  Text(
                               'My Account',
                               style: TextStyle(
-                                  fontFamily: 'etna', color: Colors.white),
+                                  fontFamily: GoogleFonts.raleway().fontFamily, 
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600
                             ),
+                          ),
                             onTap: () {},
                           ),
                           PopupMenuItem<String>(
                             value: 'logout',
-                            child: const Text(
+                            child: Text(
                               'Logout',
                               style: TextStyle(
-                                  fontFamily: 'etna', color: Colors.white),
+                                  fontFamily: GoogleFonts.raleway().fontFamily, 
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600
+                                ),
                             ),
                             onTap: () async {
                               await ref.read(authProvider.notifier).signOut();

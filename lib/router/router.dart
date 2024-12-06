@@ -22,14 +22,22 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       final isOnAuthPage = state.uri.path == '/login';
 
-      if (!isAuthenticated && (state.uri.path != '/login')) {
-        return '/login';
-      } else if (isAuthenticated &&
-          ((state.uri.path == '/login') || (state.uri.path == '/home'))) {
-        return '/dashboard';
+      // Redirect logic for authenticated users
+      if (isAuthenticated) {
+        if (state.uri.path == '/login' || state.uri.path == '/register' || state.uri.path.startsWith('/home')) {
+          return '/dashboard'; // Redirect to dashboard if trying to access login/register
+        }
       } else {
-        return null;
+        // Redirect logic for unauthenticated users
+        if (state.uri.path.startsWith('/dashboard') ||
+            state.uri.path == '/mylistings') {
+          return '/login'; // Redirect to login if trying to access protected routes
+        }
+
+       
       }
+
+      return null; // No redirect needed
     },
     routes: [
       GoRoute(
